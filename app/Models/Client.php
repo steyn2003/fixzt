@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Client extends Model
 {
@@ -20,7 +21,7 @@ class Client extends Model
         return $this->hasMany(Location::class);
     }
 
-    public function projects(): HasMany
+    public function projects(): HasManyThrough
     {
         return $this->hasManyThrough(Project::class, Location::class);
     }

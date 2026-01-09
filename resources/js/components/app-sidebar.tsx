@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, Mail } from 'lucide-react';
+import { FolderKanban, LayoutGrid, Mail, MapPin, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,24 +21,26 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Projecten',
+        href: '/dashboard/projects',
+        icon: FolderKanban,
+    },
+    {
+        title: 'Klanten',
+        href: '/dashboard/clients',
+        icon: Users,
+    },
+    {
+        title: 'Locaties',
+        href: '/dashboard/locations',
+        icon: MapPin,
+    },
+    {
         title: 'Contactberichten',
         href: '/dashboard/contacts',
         icon: Mail,
     },
 ];
-
-// const footerNavItems: NavItem[] = [
-//     {
-//         title: 'Repository',
-//         href: 'https://github.com/laravel/react-starter-kit',
-//         icon: Folder,
-//     },
-//     {
-//         title: 'Documentation',
-//         href: 'https://laravel.com/docs/starter-kits#react',
-//         icon: BookOpen,
-//     },
-// ];
 
 export function AppSidebar() {
     return (
@@ -60,7 +62,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                {/*<NavFooter items={footerNavItems} className="mt-auto" />*/}
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

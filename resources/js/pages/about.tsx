@@ -1,3 +1,10 @@
+import {
+    FadeIn,
+    FloatingElement,
+    ScaleIn,
+    SlideIn,
+} from '@/components/animations';
+import { ContactButton } from '@/components/contact-button';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -6,15 +13,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import {
-    FadeIn,
-    SlideIn,
-    ScaleIn,
-    FloatingElement,
-} from '@/components/animations';
 import { MarketingLayout } from '@/layouts/marketing-layout';
+import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { Link, Head } from '@inertiajs/react';
 
 export default function About() {
     const values = [
@@ -69,7 +70,8 @@ export default function About() {
         {
             role: 'Kleine Projecten',
             icon: '🏗️',
-            description: 'Vervangingswerk en kleine projecten binnen uw vastgoed',
+            description:
+                'Vervangingswerk en kleine projecten binnen uw vastgoed',
             image: '/team-financial.jpg',
         },
     ];
@@ -113,7 +115,7 @@ export default function About() {
                     {/* Animated Background */}
                     <div className="absolute inset-0 opacity-20">
                         <motion.div
-                            className="absolute left-20 top-20 h-72 w-72 rounded-full bg-primary blur-3xl"
+                            className="absolute top-20 left-20 h-72 w-72 rounded-full bg-primary blur-3xl"
                             animate={{
                                 scale: [1, 1.2, 1],
                                 opacity: [0.3, 0.5, 0.3],
@@ -125,7 +127,7 @@ export default function About() {
                             }}
                         />
                         <motion.div
-                            className="absolute bottom-20 right-20 h-96 w-96 rounded-full bg-accent blur-3xl"
+                            className="absolute right-20 bottom-20 h-96 w-96 rounded-full bg-accent blur-3xl"
                             animate={{
                                 scale: [1.2, 1, 1.2],
                                 opacity: [0.3, 0.5, 0.3],
@@ -138,7 +140,7 @@ export default function About() {
                         />
                     </div>
 
-                    <div className="container relative z-10 mx-auto px-4 md:px-6">
+                    <div className="relative z-10 container mx-auto px-4 md:px-6">
                         <div className="flex flex-col items-center space-y-6 text-center">
                             <FadeIn>
                                 <div className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
@@ -148,14 +150,16 @@ export default function About() {
 
                             <SlideIn direction="down">
                                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                                    Maak kennis met <span className="text-primary">Fixzt</span>
+                                    Maak kennis met{' '}
+                                    <span className="text-primary">Fixzt</span>
                                 </h1>
                             </SlideIn>
 
                             <FadeIn delay={0.2}>
                                 <p className="mx-auto max-w-[800px] text-lg text-muted-foreground md:text-xl">
-                                    Full-service dienstverlener voor commercieel vastgoed onderhoud.
-                                    Uw betrouwbare partner voor dagelijks onderhoud, preventieve
+                                    Full-service dienstverlener voor commercieel
+                                    vastgoed onderhoud. Uw betrouwbare partner
+                                    voor dagelijks onderhoud, preventieve
                                     service en spoedinterventies.
                                 </p>
                             </FadeIn>
@@ -177,21 +181,29 @@ export default function About() {
                                     </h2>
                                     <div className="space-y-4">
                                         <p className="text-muted-foreground md:text-lg">
-                                            Bij Fixzt zijn wij toegewijd aan het in optimale technische
-                                            staat houden van uw commerciële vastgoed. Wij begrijpen dat
-                                            goed onderhoud essentieel is voor de waarde van uw pand en
-                                            het comfort van uw huurders.
+                                            Bij Fixzt zijn wij toegewijd aan het
+                                            in optimale technische staat houden
+                                            van uw commerciële vastgoed. Wij
+                                            begrijpen dat goed onderhoud
+                                            essentieel is voor de waarde van uw
+                                            pand en het comfort van uw huurders.
                                         </p>
                                         <p className="text-muted-foreground md:text-lg">
-                                            Als vaste aanwezigheid in gebouwen zijn wij het eerste
-                                            aanspreekpunt voor huurders en zorgen we voor directe
-                                            oplossingen. Onze preventieve aanpak voorkomt grote
-                                            problemen en zorgt ervoor dat vastgoedbeheerders, eigenaren
-                                            en investeerders volledig ontzorgd worden met één
-                                            betrouwbare, vaste partner.
+                                            Als vaste aanwezigheid in gebouwen
+                                            zijn wij het eerste aanspreekpunt
+                                            voor huurders en zorgen we voor
+                                            directe oplossingen. Onze
+                                            preventieve aanpak voorkomt grote
+                                            problemen en zorgt ervoor dat
+                                            vastgoedbeheerders, eigenaren en
+                                            investeerders volledig ontzorgd
+                                            worden met één betrouwbare, vaste
+                                            partner.
                                         </p>
                                     </div>
-                                    <Button size="lg">Leer Meer Over Onze Diensten</Button>
+                                    <Button size="lg">
+                                        Leer Meer Over Onze Diensten
+                                    </Button>
                                 </div>
                             </SlideIn>
 
@@ -222,13 +234,18 @@ export default function About() {
                                         whileHover={{ scale: 1.05 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <div className="mb-2 text-4xl">{achievement.icon}</div>
+                                        <div className="mb-2 text-4xl">
+                                            {achievement.icon}
+                                        </div>
                                         <motion.div
                                             className="mb-2 text-4xl font-bold md:text-5xl"
                                             initial={{ scale: 0 }}
                                             whileInView={{ scale: 1 }}
                                             viewport={{ once: true }}
-                                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                                            transition={{
+                                                duration: 0.5,
+                                                delay: index * 0.1,
+                                            }}
                                         >
                                             {achievement.number}
                                         </motion.div>
@@ -251,7 +268,8 @@ export default function About() {
                                     Onze Kernwaarden
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    De principes die onze service en aanpak bepalen
+                                    De principes die onze service en aanpak
+                                    bepalen
                                 </p>
                             </div>
                         </FadeIn>
@@ -267,12 +285,19 @@ export default function About() {
                                             <CardHeader className="text-center">
                                                 <motion.div
                                                     className="mb-4 text-5xl"
-                                                    whileHover={{ rotate: 360, scale: 1.2 }}
-                                                    transition={{ duration: 0.5 }}
+                                                    whileHover={{
+                                                        rotate: 360,
+                                                        scale: 1.2,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.5,
+                                                    }}
                                                 >
                                                     {value.icon}
                                                 </motion.div>
-                                                <CardTitle>{value.title}</CardTitle>
+                                                <CardTitle>
+                                                    {value.title}
+                                                </CardTitle>
                                             </CardHeader>
                                             <CardContent>
                                                 <p className="text-center text-sm text-muted-foreground">
@@ -287,62 +312,6 @@ export default function About() {
                     </div>
                 </section>
 
-                {/* Timeline Section */}
-                <section className="w-full bg-secondary py-16 md:py-24 lg:py-32">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <FadeIn>
-                            <div className="mb-16 text-center">
-                                <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Onze Reis
-                                </h2>
-                                <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Een erfenis van betrouwbaarheid en groei in facility management
-                                </p>
-                            </div>
-                        </FadeIn>
-
-                        <div className="mx-auto max-w-4xl">
-                            <div className="relative">
-                                {/* Vertical line */}
-                                <div className="absolute bottom-0 left-8 top-0 w-0.5 bg-border md:left-1/2"></div>
-
-                                <div className="space-y-12">
-                                    {timeline.map((item, index) => (
-                                        <SlideIn
-                                            key={index}
-                                            direction={index % 2 === 0 ? 'left' : 'right'}
-                                            delay={index * 0.1}
-                                        >
-                                            <div
-                                                className={`flex items-center gap-8 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                                            >
-                                                <div
-                                                    className={`flex-1 ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}
-                                                >
-                                                    <Card>
-                                                        <CardHeader>
-                                                            <CardTitle>{item.title}</CardTitle>
-                                                            <CardDescription>{item.desc}</CardDescription>
-                                                        </CardHeader>
-                                                    </Card>
-                                                </div>
-                                                <motion.div
-                                                    className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground"
-                                                    whileHover={{ scale: 1.2, rotate: 360 }}
-                                                    transition={{ duration: 0.5 }}
-                                                >
-                                                    {item.year}
-                                                </motion.div>
-                                                <div className="hidden flex-1 md:block"></div>
-                                            </div>
-                                        </SlideIn>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 {/* Why Fixzt Section */}
                 <section className="w-full py-16 md:py-24 lg:py-32">
                     <div className="container mx-auto px-4 md:px-6">
@@ -352,7 +321,8 @@ export default function About() {
                                     Waarom Fixzt?
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Uw betrouwbare partner voor technisch gebouwbeheer
+                                    Uw betrouwbare partner voor technisch
+                                    gebouwbeheer
                                 </p>
                             </div>
                         </FadeIn>
@@ -369,17 +339,23 @@ export default function About() {
                                                 <motion.div
                                                     className="text-6xl"
                                                     whileHover={{ scale: 1.2 }}
-                                                    transition={{ duration: 0.3 }}
+                                                    transition={{
+                                                        duration: 0.3,
+                                                    }}
                                                 >
                                                     {member.icon}
                                                 </motion.div>
-                                                <div className="absolute bottom-2 right-2 rounded bg-background/80 px-2 py-1 text-xs text-muted-foreground">
+                                                <div className="absolute right-2 bottom-2 rounded bg-background/80 px-2 py-1 text-xs text-muted-foreground">
                                                     {member.image}
                                                 </div>
                                             </div>
                                             <CardHeader>
-                                                <CardTitle className="text-lg">{member.role}</CardTitle>
-                                                <CardDescription>{member.description}</CardDescription>
+                                                <CardTitle className="text-lg">
+                                                    {member.role}
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    {member.description}
+                                                </CardDescription>
                                             </CardHeader>
                                         </Card>
                                     </motion.div>
@@ -397,48 +373,66 @@ export default function About() {
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-1 text-2xl">🏢</div>
+                                            <div className="mt-1 text-2xl">
+                                                🏢
+                                            </div>
                                             <div>
                                                 <h4 className="mb-1 font-semibold">
-                                                    Vaste Aanwezigheid in Gebouwen
+                                                    Vaste Aanwezigheid in
+                                                    Gebouwen
                                                 </h4>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Wij zijn er fysiek, waardoor we snel kunnen handelen en
-                                                    problemen direct kunnen signaleren
+                                                    Wij zijn er fysiek, waardoor
+                                                    we snel kunnen handelen en
+                                                    problemen direct kunnen
+                                                    signaleren
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-1 text-2xl">👥</div>
+                                            <div className="mt-1 text-2xl">
+                                                👥
+                                            </div>
                                             <div>
                                                 <h4 className="mb-1 font-semibold">
                                                     Direct Contact met Huurders
                                                 </h4>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Als eerste aanspreekpunt zorgen wij voor snelle
-                                                    communicatie en hoge klanttevredenheid
+                                                    Als eerste aanspreekpunt
+                                                    zorgen wij voor snelle
+                                                    communicatie en hoge
+                                                    klanttevredenheid
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-1 text-2xl">🔧</div>
+                                            <div className="mt-1 text-2xl">
+                                                🔧
+                                            </div>
                                             <div>
                                                 <h4 className="mb-1 font-semibold">
                                                     Technische Expertise
                                                 </h4>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Ons team beschikt over alle technische kennis voor
+                                                    Ons team beschikt over alle
+                                                    technische kennis voor
                                                     optimaal gebouwbeheer
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="flex items-start gap-3">
-                                            <div className="mt-1 text-2xl">🛡️</div>
+                                            <div className="mt-1 text-2xl">
+                                                🛡️
+                                            </div>
                                             <div>
-                                                <h4 className="mb-1 font-semibold">Preventieve Aanpak</h4>
+                                                <h4 className="mb-1 font-semibold">
+                                                    Preventieve Aanpak
+                                                </h4>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Door preventief onderhoud voorkomen wij grote problemen
-                                                    en kostbare reparaties
+                                                    Door preventief onderhoud
+                                                    voorkomen wij grote
+                                                    problemen en kostbare
+                                                    reparaties
                                                 </p>
                                             </div>
                                         </div>
@@ -459,23 +453,19 @@ export default function About() {
                                         Klaar Voor Professioneel Gebouwbeheer?
                                     </h2>
                                     <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                        Laten we bespreken hoe wij uw vastgoed optimaal kunnen
-                                        onderhouden en uw huurders kunnen ontzorgen
+                                        Laten we bespreken hoe wij uw vastgoed
+                                        optimaal kunnen onderhouden en uw
+                                        huurders kunnen ontzorgen
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                                    <ContactButton
+                                        size="lg"
+                                        variant="secondary"
+                                        className="px-8 text-lg"
                                     >
-                                        <Button
-                                            size="lg"
-                                            variant="secondary"
-                                            className="px-8 text-lg"
-                                        >
-                                            Neem Contact Op
-                                        </Button>
-                                    </motion.div>
+                                        Neem Contact Op
+                                    </ContactButton>
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

@@ -1,12 +1,14 @@
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useContactModal } from '@/contexts/contact-modal-context';
+import { cn } from '@/lib/utils';
+import { Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Link, usePage } from '@inertiajs/react';
 
 export function MarketingNavigation() {
     const { url } = usePage();
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const { openContactModal } = useContactModal();
 
     const links = [
         { href: '/', label: 'Home' },
@@ -62,10 +64,11 @@ export function MarketingNavigation() {
                             >
                                 {link.label}
                             </Link>
-                            {(isActive(link.href) || hoveredIndex === index) && (
+                            {(isActive(link.href) ||
+                                hoveredIndex === index) && (
                                 <motion.div
                                     layoutId="navbar-indicator"
-                                    className="absolute -bottom-[21px] left-0 right-0 h-0.5 bg-primary"
+                                    className="absolute right-0 -bottom-[21px] left-0 h-0.5 bg-primary"
                                     initial={false}
                                     transition={{
                                         type: 'spring',
@@ -80,7 +83,9 @@ export function MarketingNavigation() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        <Button size="sm">Contact</Button>
+                        <Button size="sm" onClick={openContactModal}>
+                            Contact
+                        </Button>
                     </motion.div>
                 </nav>
             </div>

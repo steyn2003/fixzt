@@ -1,3 +1,5 @@
+import { FadeIn, ScaleIn, SlideIn } from '@/components/animations';
+import { ContactButton } from '@/components/contact-button';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -6,10 +8,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { FadeIn, SlideIn, ScaleIn } from '@/components/animations';
 import { MarketingLayout } from '@/layouts/marketing-layout';
+import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { Link, Head } from '@inertiajs/react';
 
 export default function Services() {
     const services = [
@@ -28,13 +29,14 @@ export default function Services() {
         },
         {
             title: 'Preventief Onderhoud, Controles en Inspecties',
-            description: 'Proactieve bewaking en onderhoud om problemen voor te zijn',
+            description:
+                'Proactieve bewaking en onderhoud om problemen voor te zijn',
             icon: '🔍',
             image: '/service-inspections.jpg',
             features: [
                 'Periodieke controles aan klimaatinstallaties en technische ruimten',
                 'Visuele inspecties van bouwkundige en installatietechnische onderdelen',
-                'Signaleren van slijtage, risico\'s en toekomstige onderhoudsbehoefte',
+                "Signaleren van slijtage, risico's en toekomstige onderhoudsbehoefte",
                 'Rapportage en terugkoppeling richting beheerder of eigenaar',
             ],
         },
@@ -86,7 +88,7 @@ export default function Services() {
                     {/* Animated Background */}
                     <div className="absolute inset-0 opacity-20">
                         <motion.div
-                            className="absolute right-10 top-10 h-64 w-64 rounded-full bg-primary blur-3xl"
+                            className="absolute top-10 right-10 h-64 w-64 rounded-full bg-primary blur-3xl"
                             animate={{
                                 scale: [1, 1.3, 1],
                                 opacity: [0.3, 0.6, 0.3],
@@ -99,7 +101,7 @@ export default function Services() {
                         />
                     </div>
 
-                    <div className="container relative z-10 mx-auto px-4 md:px-6">
+                    <div className="relative z-10 container mx-auto px-4 md:px-6">
                         <div className="flex flex-col items-center space-y-6 text-center">
                             <FadeIn>
                                 <div className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
@@ -109,15 +111,20 @@ export default function Services() {
 
                             <SlideIn direction="down">
                                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                                    Onze <span className="text-primary">Diensten</span>
+                                    Onze{' '}
+                                    <span className="text-primary">
+                                        Diensten
+                                    </span>
                                 </h1>
                             </SlideIn>
 
                             <FadeIn delay={0.2}>
                                 <p className="mx-auto max-w-[800px] text-lg text-muted-foreground md:text-xl">
-                                    Professioneel gebouwbeheer en technisch onderhoud voor kantoren
-                                    en light industrial panden. Van preventief onderhoud tot snelle
-                                    reparaties, wij zorgen dat uw vastgoed optimaal functioneert.
+                                    Professioneel gebouwbeheer en technisch
+                                    onderhoud voor kantoren en light industrial
+                                    panden. Van preventief onderhoud tot snelle
+                                    reparaties, wij zorgen dat uw vastgoed
+                                    optimaal functioneert.
                                 </p>
                             </FadeIn>
                         </div>
@@ -140,18 +147,25 @@ export default function Services() {
                                             <div className="relative flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
                                                 <motion.div
                                                     className="text-6xl"
-                                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                                    transition={{ duration: 0.3 }}
+                                                    whileHover={{
+                                                        scale: 1.2,
+                                                        rotate: 5,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.3,
+                                                    }}
                                                 >
                                                     {service.icon}
                                                 </motion.div>
-                                                <div className="absolute bottom-2 right-2 rounded bg-background/80 px-2 py-1 text-xs text-muted-foreground">
+                                                <div className="absolute right-2 bottom-2 rounded bg-background/80 px-2 py-1 text-xs text-muted-foreground">
                                                     {service.image}
                                                 </div>
                                             </div>
 
                                             <CardHeader>
-                                                <CardTitle className="text-xl">{service.title}</CardTitle>
+                                                <CardTitle className="text-xl">
+                                                    {service.title}
+                                                </CardTitle>
                                                 <CardDescription className="text-base">
                                                     {service.description}
                                                 </CardDescription>
@@ -159,23 +173,37 @@ export default function Services() {
 
                                             <CardContent className="flex-1">
                                                 <ul className="space-y-3">
-                                                    {service.features.map((feature, idx) => (
-                                                        <motion.li
-                                                            key={idx}
-                                                            initial={{ opacity: 0, x: -10 }}
-                                                            whileInView={{ opacity: 1, x: 0 }}
-                                                            viewport={{ once: true }}
-                                                            transition={{ delay: idx * 0.1 }}
-                                                            className="flex items-start"
-                                                        >
-                                                            <span className="mr-3 text-lg font-bold text-primary">
-                                                                ✓
-                                                            </span>
-                                                            <span className="text-sm text-muted-foreground">
-                                                                {feature}
-                                                            </span>
-                                                        </motion.li>
-                                                    ))}
+                                                    {service.features.map(
+                                                        (feature, idx) => (
+                                                            <motion.li
+                                                                key={idx}
+                                                                initial={{
+                                                                    opacity: 0,
+                                                                    x: -10,
+                                                                }}
+                                                                whileInView={{
+                                                                    opacity: 1,
+                                                                    x: 0,
+                                                                }}
+                                                                viewport={{
+                                                                    once: true,
+                                                                }}
+                                                                transition={{
+                                                                    delay:
+                                                                        idx *
+                                                                        0.1,
+                                                                }}
+                                                                className="flex items-start"
+                                                            >
+                                                                <span className="mr-3 text-lg font-bold text-primary">
+                                                                    ✓
+                                                                </span>
+                                                                <span className="text-sm text-muted-foreground">
+                                                                    {feature}
+                                                                </span>
+                                                            </motion.li>
+                                                        ),
+                                                    )}
                                                 </ul>
 
                                                 <motion.div
@@ -183,7 +211,10 @@ export default function Services() {
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
                                                 >
-                                                    <Button className="w-full" variant="outline">
+                                                    <Button
+                                                        className="w-full"
+                                                        variant="outline"
+                                                    >
                                                         Meer Informatie
                                                     </Button>
                                                 </motion.div>
@@ -205,8 +236,8 @@ export default function Services() {
                                     Waarom Met Ons Werken?
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Ervaar het verschil van professioneel gebouwbeheer met een
-                                    persoonlijke aanpak
+                                    Ervaar het verschil van professioneel
+                                    gebouwbeheer met een persoonlijke aanpak
                                 </p>
                             </div>
                         </FadeIn>
@@ -236,7 +267,9 @@ export default function Services() {
                             ].map((benefit, index) => (
                                 <SlideIn
                                     key={index}
-                                    direction={index % 2 === 0 ? 'left' : 'right'}
+                                    direction={
+                                        index % 2 === 0 ? 'left' : 'right'
+                                    }
                                     delay={index * 0.1}
                                 >
                                     <motion.div
@@ -248,12 +281,18 @@ export default function Services() {
                                                 <motion.div
                                                     className="mb-4 text-5xl"
                                                     whileHover={{ rotate: 360 }}
-                                                    transition={{ duration: 0.5 }}
+                                                    transition={{
+                                                        duration: 0.5,
+                                                    }}
                                                 >
                                                     {benefit.icon}
                                                 </motion.div>
-                                                <CardTitle className="text-lg">{benefit.title}</CardTitle>
-                                                <CardDescription>{benefit.desc}</CardDescription>
+                                                <CardTitle className="text-lg">
+                                                    {benefit.title}
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    {benefit.desc}
+                                                </CardDescription>
                                             </CardHeader>
                                         </Card>
                                     </motion.div>
@@ -272,7 +311,8 @@ export default function Services() {
                                     Ons Proces
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Een gestroomlijnde aanpak voor optimaal gebouwbeheer
+                                    Een gestroomlijnde aanpak voor optimaal
+                                    gebouwbeheer
                                 </p>
                             </div>
                         </FadeIn>
@@ -302,7 +342,9 @@ export default function Services() {
                             ].map((item, index) => (
                                 <SlideIn
                                     key={index}
-                                    direction={index % 2 === 0 ? 'left' : 'right'}
+                                    direction={
+                                        index % 2 === 0 ? 'left' : 'right'
+                                    }
                                     delay={index * 0.1}
                                 >
                                     <motion.div
@@ -313,15 +355,22 @@ export default function Services() {
                                         <div className="flex-shrink-0">
                                             <motion.div
                                                 className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground"
-                                                whileHover={{ scale: 1.2, rotate: 360 }}
+                                                whileHover={{
+                                                    scale: 1.2,
+                                                    rotate: 360,
+                                                }}
                                                 transition={{ duration: 0.5 }}
                                             >
                                                 {item.step}
                                             </motion.div>
                                         </div>
                                         <div className="flex-1 pt-2">
-                                            <h3 className="mb-2 text-xl font-bold">{item.title}</h3>
-                                            <p className="text-muted-foreground">{item.desc}</p>
+                                            <h3 className="mb-2 text-xl font-bold">
+                                                {item.title}
+                                            </h3>
+                                            <p className="text-muted-foreground">
+                                                {item.desc}
+                                            </p>
                                         </div>
                                     </motion.div>
                                 </SlideIn>
@@ -340,23 +389,19 @@ export default function Services() {
                                         Klaar om te Beginnen?
                                     </h2>
                                     <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                        Neem vandaag nog contact met ons op om te bespreken hoe wij u
-                                        kunnen helpen met professioneel gebouwbeheer
+                                        Neem vandaag nog contact met ons op om
+                                        te bespreken hoe wij u kunnen helpen met
+                                        professioneel gebouwbeheer
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                                    <ContactButton
+                                        size="lg"
+                                        variant="secondary"
+                                        className="px-8 text-lg"
                                     >
-                                        <Button
-                                            size="lg"
-                                            variant="secondary"
-                                            className="px-8 text-lg"
-                                        >
-                                            Aan de Slag
-                                        </Button>
-                                    </motion.div>
+                                        Aan de Slag
+                                    </ContactButton>
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

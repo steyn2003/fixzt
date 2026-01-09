@@ -1,4 +1,5 @@
 import { FadeIn, ScaleIn, SlideIn } from '@/components/animations';
+import { ContactButton } from '@/components/contact-button';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -66,32 +67,32 @@ export default function Welcome() {
         {
             title: 'Winkelpanden & Winkelcentra',
             description: 'Onderhoud voor retail vastgoed',
-            image: '/building-retail.jpg',
+            image: '/building-retail.png',
         },
         {
             title: 'Kantoorgebouwen',
             description: 'Facility management voor kantoren',
-            image: '/building-office.jpg',
+            image: '/building-office.png',
         },
         {
             title: 'Light Industrial & Bedrijfsruimtes',
             description: 'Technisch onderhoud bedrijfspanden',
-            image: '/building-industrial.jpg',
+            image: '/building-industrial.png',
         },
         {
             title: 'Zorglocaties',
             description: 'Betrouwbaar onderhoud zorginstellingen',
-            image: '/building-care.jpg',
+            image: '/building-care.png',
         },
         {
             title: 'Hotels',
             description: 'Continue inzetbaarheid horecavastgoed',
-            image: '/building-hotel.jpg',
+            image: '/building-hotel.png',
         },
         {
             title: 'Wooncomplexen',
             description: 'Complexmatig beheer woongebouwen',
-            image: '/building-residential.jpg',
+            image: '/building-residential.png',
         },
     ];
 
@@ -377,16 +378,12 @@ export default function Welcome() {
                                         transition={{ duration: 0.3 }}
                                     >
                                         <Card className="h-full overflow-hidden transition-shadow hover:shadow-xl">
-                                            <div className="relative flex h-48 items-center justify-center bg-muted">
-                                                <div className="p-4 text-center">
-                                                    <div className="mb-2 text-4xl">
-                                                        🏢
-                                                    </div>
-                                                    <p className="text-xs text-muted-foreground">
-                                                        Afbeelding:{' '}
-                                                        {building.image}
-                                                    </p>
-                                                </div>
+                                            <div className="relative h-48 overflow-hidden">
+                                                <img
+                                                    src={building.image}
+                                                    alt={building.title}
+                                                    className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                                                />
                                             </div>
                                             <CardHeader>
                                                 <CardTitle>
@@ -614,17 +611,12 @@ export default function Welcome() {
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                                    <ContactButton
+                                        size="lg"
+                                        className="px-8 text-lg"
                                     >
-                                        <Button
-                                            size="lg"
-                                            className="px-8 text-lg"
-                                        >
-                                            Neem Contact Op
-                                        </Button>
-                                    </motion.div>
+                                        Neem Contact Op
+                                    </ContactButton>
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

@@ -10,7 +10,14 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Building2, FolderKanban, MapPin, Pencil, Plus, Users } from 'lucide-react';
+import {
+    Building2,
+    FolderKanban,
+    MapPin,
+    Pencil,
+    Plus,
+    Users,
+} from 'lucide-react';
 
 interface Client {
     id: number;
@@ -77,7 +84,9 @@ export default function LocationShow({ location }: Props) {
                                     Locatiegegevens en overzicht
                                 </CardDescription>
                             </div>
-                            <Link href={`/dashboard/locations/${location.id}/edit`}>
+                            <Link
+                                href={`/dashboard/locations/${location.id}/edit`}
+                            >
                                 <Button variant="outline">
                                     <Pencil className="mr-2 h-4 w-4" />
                                     Bewerken
@@ -104,7 +113,8 @@ export default function LocationShow({ location }: Props) {
                                 <div>
                                     <p className="text-sm font-medium">Adres</p>
                                     <p className="text-sm text-muted-foreground">
-                                        {location.address}<br />
+                                        {location.address}
+                                        <br />
                                         {location.postal_code} {location.city}
                                     </p>
                                 </div>
@@ -112,30 +122,42 @@ export default function LocationShow({ location }: Props) {
                             <div className="flex items-start gap-3">
                                 <Building2 className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                 <div>
-                                    <p className="text-sm font-medium">Type Gebouw</p>
+                                    <p className="text-sm font-medium">
+                                        Type Gebouw
+                                    </p>
                                     <Badge variant="secondary">
-                                        {buildingTypeLabels[location.building_type] || location.building_type}
+                                        {buildingTypeLabels[
+                                            location.building_type
+                                        ] || location.building_type}
                                     </Badge>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
                                 <FolderKanban className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                 <div>
-                                    <p className="text-sm font-medium">Projecten</p>
-                                    <p className="text-sm text-muted-foreground">{location.projects.length} project(en)</p>
+                                    <p className="text-sm font-medium">
+                                        Projecten
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {location.projects.length} project(en)
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         {location.notes && (
                             <div className="mt-6 rounded-lg bg-muted p-4">
-                                <p className="text-sm font-medium mb-1">Notities</p>
-                                <p className="text-sm text-muted-foreground whitespace-pre-wrap">{location.notes}</p>
+                                <p className="mb-1 text-sm font-medium">
+                                    Notities
+                                </p>
+                                <p className="text-sm whitespace-pre-wrap text-muted-foreground">
+                                    {location.notes}
+                                </p>
                             </div>
                         )}
                     </CardContent>
                 </Card>
 
-                {/* Projects Card - Placeholder for Phase 2 */}
+                {/* Projects Card */}
                 <Card>
                     <CardHeader>
                         <div className="flex items-center justify-between">
@@ -148,16 +170,52 @@ export default function LocationShow({ location }: Props) {
                                     Alle projecten op deze locatie
                                 </CardDescription>
                             </div>
-                            <Button disabled>
-                                <Plus className="mr-2 h-4 w-4" />
-                                Nieuw Project
-                            </Button>
+                            <Link
+                                href={`/dashboard/projects/create?location_id=${location.id}`}
+                            >
+                                <Button>
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Nieuw Project
+                                </Button>
+                            </Link>
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="py-12 text-center text-muted-foreground">
-                            Projecten worden in de volgende fase toegevoegd.
-                        </div>
+                        {location.projects.length > 0 ? (
+                            <div className="space-y-3">
+                                {location.projects.map((project) => (
+                                    <Link
+                                        key={project.id}
+                                        href={`/dashboard/projects/${project.id}`}
+                                        className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <FolderKanban className="h-5 w-5 text-muted-foreground" />
+                                            <div>
+                                                <p className="font-medium">
+                                                    {project.title}
+                                                </p>
+                                                <p className="text-sm text-muted-foreground">
+                                                    Aangemaakt op{' '}
+                                                    {new Date(
+                                                        project.created_at,
+                                                    ).toLocaleDateString(
+                                                        'nl-NL',
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <Badge variant="secondary">
+                                            {project.status}
+                                        </Badge>
+                                    </Link>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="py-12 text-center text-muted-foreground">
+                                Geen projecten gevonden voor deze locatie.
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>

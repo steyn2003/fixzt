@@ -196,7 +196,7 @@ export default function Welcome() {
             <Head title="Fixzt - Uw Gebouw Technisch in Topconditie" />
             <div className="flex flex-col">
                 {/* Hero Section with Animation */}
-                <section className="relative w-full overflow-hidden bg-gradient-to-br from-background via-secondary to-background py-10 md:py-12 lg:py-20 xl:py-24">
+                <section className="relative w-full overflow-hidden bg-linear-to-br from-background via-secondary to-background p-5 md:py-12 lg:py-20 xl:py-24">
                     <div className="relative z-10 container mx-auto">
                         <div className="grid items-center gap-12 lg:grid-cols-2">
                             <div className="space-y-8">
@@ -247,15 +247,15 @@ export default function Welcome() {
                                 </SlideIn>
 
                                 <SlideIn direction="right" delay={0.6}>
-                                    <div className="flex gap-8 pt-4">
+                                    <div className="grid grid-cols-3 gap-4 pt-4 sm:gap-8">
                                         {stats
                                             .slice(0, 3)
                                             .map((stat, index) => (
                                                 <div key={index}>
-                                                    <div className="text-2xl font-bold text-primary md:text-3xl">
+                                                    <div className="text-xl font-bold text-primary sm:text-2xl md:text-3xl">
                                                         {stat.value}
                                                     </div>
-                                                    <div className="text-sm text-muted-foreground">
+                                                    <div className="text-xs text-muted-foreground sm:text-sm">
                                                         {stat.label}
                                                     </div>
                                                 </div>
@@ -307,8 +307,58 @@ export default function Welcome() {
                     </div>
                 </section>
 
-                {/* Target Audience Section */}
+                {/* Services Section - What We Do */}
                 <section className="w-full py-16 md:py-24 lg:py-32">
+                    <div className="container mx-auto px-4 md:px-6">
+                        <FadeIn>
+                            <div className="mb-16 text-center">
+                                <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                                    Wat Doen We Precies?
+                                </h2>
+                                <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
+                                    Onze diensten voor optimaal onderhoud van uw
+                                    commercieel vastgoed
+                                </p>
+                            </div>
+                        </FadeIn>
+
+                        <div className="relative">
+                            {/* Connection Line */}
+                            <div className="absolute top-1/2 right-0 left-0 hidden h-0.5 -translate-y-1/2 bg-border lg:block" />
+
+                            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                                {services.map((item, index) => (
+                                    <FadeIn key={index} delay={index * 0.1}>
+                                        <motion.div
+                                            className="relative"
+                                            whileHover={{ scale: 1.05 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Card className="relative z-10 h-full bg-background">
+                                                <CardHeader>
+                                                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+                                                        {item.step}
+                                                    </div>
+                                                    <CardTitle className="text-xl">
+                                                        {item.title}
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        {item.description}
+                                                    </p>
+                                                </CardContent>
+                                            </Card>
+                                        </motion.div>
+                                    </FadeIn>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Target Audience Section */}
+                {/*<section className="w-full py-16 md:py-24 lg:py-32">
                     <div className="container mx-auto px-4 md:px-6">
                         <FadeIn>
                             <div className="mb-16 text-center">
@@ -347,7 +397,7 @@ export default function Welcome() {
                             ))}
                         </div>
                     </div>
-                </section>
+                </section>*/}
 
                 {/* Building Types */}
                 <section className="w-full bg-secondary py-16 md:py-24 lg:py-32">
@@ -401,56 +451,6 @@ export default function Welcome() {
                     </div>
                 </section>
 
-                {/* Services Section - What We Do */}
-                <section className="w-full py-16 md:py-24 lg:py-32">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <FadeIn>
-                            <div className="mb-16 text-center">
-                                <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Wat Doen We Precies?
-                                </h2>
-                                <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Onze diensten voor optimaal onderhoud van uw
-                                    commercieel vastgoed
-                                </p>
-                            </div>
-                        </FadeIn>
-
-                        <div className="relative">
-                            {/* Connection Line */}
-                            <div className="absolute top-1/2 right-0 left-0 hidden h-0.5 -translate-y-1/2 bg-border lg:block" />
-
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
-                                {services.map((item, index) => (
-                                    <FadeIn key={index} delay={index * 0.1}>
-                                        <motion.div
-                                            className="relative"
-                                            whileHover={{ scale: 1.05 }}
-                                            transition={{ duration: 0.2 }}
-                                        >
-                                            <Card className="relative z-10 h-full bg-background">
-                                                <CardHeader>
-                                                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
-                                                        {item.step}
-                                                    </div>
-                                                    <CardTitle className="text-xl">
-                                                        {item.title}
-                                                    </CardTitle>
-                                                </CardHeader>
-                                                <CardContent>
-                                                    <p className="text-sm text-muted-foreground">
-                                                        {item.description}
-                                                    </p>
-                                                </CardContent>
-                                            </Card>
-                                        </motion.div>
-                                    </FadeIn>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 {/* Why Fixzt Section */}
                 <section className="w-full bg-secondary py-16 md:py-24 lg:py-32">
                     <div className="container mx-auto px-4 md:px-6">
@@ -499,7 +499,7 @@ export default function Welcome() {
                 </section>
 
                 {/* Testimonials */}
-                <section className="w-full py-16 md:py-24 lg:py-32">
+                {/*<section className="w-full py-16 md:py-24 lg:py-32">
                     <div className="container mx-auto px-4 md:px-6">
                         <FadeIn>
                             <div className="mb-16 text-center">
@@ -554,7 +554,7 @@ export default function Welcome() {
                             ))}
                         </div>
                     </div>
-                </section>
+                </section>*/}
 
                 {/* Newsletter Section */}
                 <section className="w-full bg-secondary py-16 md:py-24 lg:py-32">

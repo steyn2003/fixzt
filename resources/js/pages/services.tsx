@@ -86,7 +86,7 @@ export default function Services() {
                 {/* Header Section with Animation */}
                 <section className="relative w-full overflow-hidden bg-gradient-to-br from-background via-secondary to-background py-16 md:py-24 lg:py-32">
                     {/* Animated Background */}
-                    <div className="absolute inset-0 opacity-20">
+                    <div className="absolute inset-0 hidden opacity-20 md:block">
                         <motion.div
                             className="absolute top-10 right-10 h-64 w-64 rounded-full bg-primary blur-3xl"
                             animate={{
@@ -348,13 +348,13 @@ export default function Services() {
                                     delay={index * 0.1}
                                 >
                                     <motion.div
-                                        className="mb-12 flex gap-6 last:mb-0"
+                                        className="mb-8 flex gap-4 last:mb-0 sm:mb-12 sm:gap-6"
                                         whileHover={{ x: 10 }}
                                         transition={{ duration: 0.2 }}
                                     >
                                         <div className="flex-shrink-0">
                                             <motion.div
-                                                className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground"
+                                                className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground sm:h-16 sm:w-16 sm:text-2xl"
                                                 whileHover={{
                                                     scale: 1.2,
                                                     rotate: 360,
@@ -364,11 +364,11 @@ export default function Services() {
                                                 {item.step}
                                             </motion.div>
                                         </div>
-                                        <div className="flex-1 pt-2">
-                                            <h3 className="mb-2 text-xl font-bold">
+                                        <div className="flex-1 pt-1 sm:pt-2">
+                                            <h3 className="mb-1 text-lg font-bold sm:mb-2 sm:text-xl">
                                                 {item.title}
                                             </h3>
-                                            <p className="text-muted-foreground">
+                                            <p className="text-sm text-muted-foreground sm:text-base">
                                                 {item.desc}
                                             </p>
                                         </div>

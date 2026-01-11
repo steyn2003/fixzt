@@ -113,7 +113,7 @@ export default function About() {
                 {/* Hero Section */}
                 <section className="relative w-full overflow-hidden bg-gradient-to-br from-background via-secondary to-background py-16 md:py-24 lg:py-32">
                     {/* Animated Background */}
-                    <div className="absolute inset-0 opacity-20">
+                    <div className="absolute inset-0 hidden opacity-20 md:block">
                         <motion.div
                             className="absolute top-20 left-20 h-72 w-72 rounded-full bg-primary blur-3xl"
                             animate={{

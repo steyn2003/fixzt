@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormConfirmation;
 use App\Mail\NewContactSubmission;
 use App\Models\ContactSubmission;
 use Illuminate\Http\Request;
@@ -25,8 +26,11 @@ class ContactSubmissionController extends Controller
 
         $submission = ContactSubmission::create($validated);
 
-        // Send email notification to admin
-        $adminEmail = config('mail.admin_address', config('mail.from.address'));
+        // Send confirmation email to the submitter
+        Mail::to($submission->email)->send(new ContactFormConfirmation($submission));
+
+        // Send notification email to admin
+        $adminEmail = config('mail.admin_address');
         if ($adminEmail) {
             Mail::to($adminEmail)->send(new NewContactSubmission($submission));
         }

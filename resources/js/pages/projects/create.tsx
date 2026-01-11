@@ -20,7 +20,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FolderKanban } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Location {
     id: number;
@@ -59,8 +59,19 @@ const projectStatuses = [
 ];
 
 export default function ProjectCreate({ clients, selectedLocationId }: Props) {
-    const [selectedClientId, setSelectedClientId] = useState<string>('');
-    const [availableLocations, setAvailableLocations] = useState<Location[]>([]);
+    // Find initial client based on selectedLocationId
+    const initialClient = selectedLocationId
+        ? clients.find((c) =>
+              c.locations.some((l) => l.id.toString() === selectedLocationId),
+          )
+        : null;
+
+    const [selectedClientId, setSelectedClientId] = useState<string>(
+        initialClient?.id.toString() || '',
+    );
+    const [availableLocations, setAvailableLocations] = useState<Location[]>(
+        initialClient?.locations || [],
+    );
 
     const { data, setData, post, processing, errors } = useForm({
         location_id: selectedLocationId || '',
@@ -73,22 +84,9 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
         due_date: '',
     });
 
-    // Set initial client if location is pre-selected
-    useEffect(() => {
-        if (selectedLocationId) {
-            const client = clients.find(c =>
-                c.locations.some(l => l.id.toString() === selectedLocationId)
-            );
-            if (client) {
-                setSelectedClientId(client.id.toString());
-                setAvailableLocations(client.locations);
-            }
-        }
-    }, [selectedLocationId, clients]);
-
     const handleClientChange = (clientId: string) => {
         setSelectedClientId(clientId);
-        const client = clients.find(c => c.id.toString() === clientId);
+        const client = clients.find((c) => c.id.toString() === clientId);
         setAvailableLocations(client?.locations || []);
         setData('location_id', '');
     };
@@ -128,7 +126,10 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                         </SelectTrigger>
                                         <SelectContent>
                                             {clients.map((client) => (
-                                                <SelectItem key={client.id} value={client.id.toString()}>
+                                                <SelectItem
+                                                    key={client.id}
+                                                    value={client.id.toString()}
+                                                >
                                                     {client.name}
                                                 </SelectItem>
                                             ))}
@@ -137,25 +138,42 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="location_id">Locatie *</Label>
+                                    <Label htmlFor="location_id">
+                                        Locatie *
+                                    </Label>
                                     <Select
                                         value={data.location_id}
-                                        onValueChange={(value) => setData('location_id', value)}
+                                        onValueChange={(value) =>
+                                            setData('location_id', value)
+                                        }
                                         disabled={!selectedClientId}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder={selectedClientId ? "Selecteer een locatie" : "Selecteer eerst een klant"} />
+                                            <SelectValue
+                                                placeholder={
+                                                    selectedClientId
+                                                        ? 'Selecteer een locatie'
+                                                        : 'Selecteer eerst een klant'
+                                                }
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {availableLocations.map((location) => (
-                                                <SelectItem key={location.id} value={location.id.toString()}>
-                                                    {location.name}
-                                                </SelectItem>
-                                            ))}
+                                            {availableLocations.map(
+                                                (location) => (
+                                                    <SelectItem
+                                                        key={location.id}
+                                                        value={location.id.toString()}
+                                                    >
+                                                        {location.name}
+                                                    </SelectItem>
+                                                ),
+                                            )}
                                         </SelectContent>
                                     </Select>
                                     {errors.location_id && (
-                                        <p className="text-sm text-destructive">{errors.location_id}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.location_id}
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -165,25 +183,35 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                 <Input
                                     id="title"
                                     value={data.title}
-                                    onChange={(e) => setData('title', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('title', e.target.value)
+                                    }
                                     placeholder="Bijv. Reparatie CV-installatie"
                                 />
                                 {errors.title && (
-                                    <p className="text-sm text-destructive">{errors.title}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.title}
+                                    </p>
                                 )}
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="description">Beschrijving</Label>
+                                <Label htmlFor="description">
+                                    Beschrijving
+                                </Label>
                                 <Textarea
                                     id="description"
                                     value={data.description}
-                                    onChange={(e) => setData('description', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('description', e.target.value)
+                                    }
                                     placeholder="Beschrijf de werkzaamheden..."
                                     rows={4}
                                 />
                                 {errors.description && (
-                                    <p className="text-sm text-destructive">{errors.description}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.description}
+                                    </p>
                                 )}
                             </div>
 
@@ -192,21 +220,28 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                     <Label htmlFor="type">Type Project *</Label>
                                     <Select
                                         value={data.type}
-                                        onValueChange={(value) => setData('type', value)}
+                                        onValueChange={(value) =>
+                                            setData('type', value)
+                                        }
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {projectTypes.map((type) => (
-                                                <SelectItem key={type.value} value={type.value}>
+                                                <SelectItem
+                                                    key={type.value}
+                                                    value={type.value}
+                                                >
                                                     {type.label}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.type && (
-                                        <p className="text-sm text-destructive">{errors.type}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.type}
+                                        </p>
                                     )}
                                 </div>
 
@@ -214,56 +249,83 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                     <Label htmlFor="status">Status *</Label>
                                     <Select
                                         value={data.status}
-                                        onValueChange={(value) => setData('status', value)}
+                                        onValueChange={(value) =>
+                                            setData('status', value)
+                                        }
                                     >
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {projectStatuses.map((status) => (
-                                                <SelectItem key={status.value} value={status.value}>
+                                                <SelectItem
+                                                    key={status.value}
+                                                    value={status.value}
+                                                >
                                                     {status.label}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.status && (
-                                        <p className="text-sm text-destructive">{errors.status}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.status}
+                                        </p>
                                     )}
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="quoted_price">Offerteprijs</Label>
+                                <Label htmlFor="quoted_price">
+                                    Offerteprijs
+                                </Label>
                                 <div className="relative">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">€</span>
+                                    <span className="absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground">
+                                        €
+                                    </span>
                                     <Input
                                         id="quoted_price"
                                         type="number"
                                         step="0.01"
                                         min="0"
                                         value={data.quoted_price}
-                                        onChange={(e) => setData('quoted_price', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'quoted_price',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="0.00"
                                         className="pl-8"
                                     />
                                 </div>
                                 {errors.quoted_price && (
-                                    <p className="text-sm text-destructive">{errors.quoted_price}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.quoted_price}
+                                    </p>
                                 )}
                             </div>
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="start_date">Startdatum</Label>
+                                    <Label htmlFor="start_date">
+                                        Startdatum
+                                    </Label>
                                     <Input
                                         id="start_date"
                                         type="date"
                                         value={data.start_date}
-                                        onChange={(e) => setData('start_date', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'start_date',
+                                                e.target.value,
+                                            )
+                                        }
                                     />
                                     {errors.start_date && (
-                                        <p className="text-sm text-destructive">{errors.start_date}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.start_date}
+                                        </p>
                                     )}
                                 </div>
 
@@ -273,17 +335,23 @@ export default function ProjectCreate({ clients, selectedLocationId }: Props) {
                                         id="due_date"
                                         type="date"
                                         value={data.due_date}
-                                        onChange={(e) => setData('due_date', e.target.value)}
+                                        onChange={(e) =>
+                                            setData('due_date', e.target.value)
+                                        }
                                     />
                                     {errors.due_date && (
-                                        <p className="text-sm text-destructive">{errors.due_date}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.due_date}
+                                        </p>
                                     )}
                                 </div>
                             </div>
 
                             <div className="flex gap-4">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Opslaan...' : 'Project Aanmaken'}
+                                    {processing
+                                        ? 'Opslaan...'
+                                        : 'Project Aanmaken'}
                                 </Button>
                                 <Link href="/dashboard/projects">
                                     <Button type="button" variant="outline">

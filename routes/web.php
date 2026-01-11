@@ -8,6 +8,7 @@ use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ProjectMaterialController;
 use App\Http\Controllers\ProjectNoteController;
 use App\Http\Controllers\TimeEntryController;
+use App\Http\Controllers\UserController;
 use App\Models\ContactSubmission;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    return Inertia::render('welcome');
 })->name('home');
 
 Route::get('/about', function () {
@@ -82,6 +81,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Files (nested under projects)
     Route::post('dashboard/projects/{project}/files', [ProjectFileController::class, 'store'])->name('files.store');
     Route::delete('dashboard/projects/{project}/files/{file}', [ProjectFileController::class, 'destroy'])->name('files.destroy');
+
+    // Users
+    Route::resource('dashboard/users', UserController::class)->names('users')->except(['show']);
 });
 
 require __DIR__.'/settings.php';

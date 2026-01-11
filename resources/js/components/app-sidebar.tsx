@@ -11,7 +11,14 @@ import {
 } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { FolderKanban, LayoutGrid, Mail, MapPin, Users } from 'lucide-react';
+import {
+    FolderKanban,
+    LayoutGrid,
+    Mail,
+    MapPin,
+    UserCog,
+    Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -39,6 +46,11 @@ const mainNavItems: NavItem[] = [
         title: 'Contactberichten',
         href: '/dashboard/contacts',
         icon: Mail,
+    },
+    {
+        title: 'Gebruikers',
+        href: '/dashboard/users',
+        icon: UserCog,
     },
 ];
 

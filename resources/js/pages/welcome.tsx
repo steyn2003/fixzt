@@ -67,32 +67,32 @@ export default function Welcome() {
         {
             title: 'Winkelpanden & Winkelcentra',
             description: 'Onderhoud voor retail vastgoed',
-            image: '/building-retail.png',
+            image: '/building-retail.webp',
         },
         {
             title: 'Kantoorgebouwen',
             description: 'Facility management voor kantoren',
-            image: '/building-office.png',
+            image: '/building-office.webp',
         },
         {
             title: 'Light Industrial & Bedrijfsruimtes',
             description: 'Technisch onderhoud bedrijfspanden',
-            image: '/building-industrial.png',
+            image: '/building-industrial.webp',
         },
         {
             title: 'Zorglocaties',
             description: 'Betrouwbaar onderhoud zorginstellingen',
-            image: '/building-care.png',
+            image: '/building-care.webp',
         },
         {
             title: 'Hotels',
             description: 'Continue inzetbaarheid horecavastgoed',
-            image: '/building-hotel.png',
+            image: '/building-hotel.webp',
         },
         {
             title: 'Wooncomplexen',
             description: 'Complexmatig beheer woongebouwen',
-            image: '/building-residential.png',
+            image: '/building-residential.webp',
         },
     ];
 
@@ -267,7 +267,7 @@ export default function Welcome() {
                             <ScaleIn delay={0.3}>
                                 <div className="relative h-[400px] overflow-hidden rounded-2xl shadow-2xl md:h-[500px] lg:h-[600px]">
                                     <img
-                                        src="/homepage.jpg"
+                                        src="/homepage.webp"
                                         alt="Fixzt onderhoud commercieel vastgoed"
                                         className="h-full w-full object-cover"
                                     />

@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_22", "npm-10_x", "php83", "php83Packages.composer", "php83Extensions.pdo_pgsql", "nginx"]
+nixPkgs = ["nodejs_22", "npm-10_x", "php84", "php84Packages.composer", "php84Extensions.pdo_pgsql", "nginx"]
 
 [phases.build]
 cmds = ["composer install --no-dev --optimize-autoloader", "npm ci", "npm run build", "php artisan config:cache", "php artisan route:cache", "php artisan view:cache"]

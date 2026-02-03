@@ -25,6 +25,10 @@ return new class extends Migration
             });
         }
 
+        // Drop any leftover indexes/constraints from PostgreSQL BEFORE dropping table
+        // (PostgreSQL may keep these as standalone objects)
+        DB::statement('DROP INDEX IF EXISTS quotes_quote_number_unique');
+
         // Always drop the quotes table first if it exists (handles PostgreSQL properly)
         Schema::dropIfExists('quotes');
 

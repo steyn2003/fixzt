@@ -11,6 +11,7 @@ use App\Models\QuoteTemplate;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use NeuronAI\Chat\Messages\UserMessage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Smalot\PdfParser\Parser as PdfParser;
 
@@ -206,9 +207,9 @@ class QuoteController extends Controller
         }
 
         $agent = new QuoteExtractionAgent;
-        $response = $agent->chat($content);
+        $response = $agent->chat(new UserMessage($content));
 
-        $lines = json_decode($response, true);
+        $lines = json_decode($response->getContent(), true);
 
         if (! is_array($lines)) {
             return response()->json([

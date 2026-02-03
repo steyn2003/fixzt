@@ -16,6 +16,7 @@ import {
     FileText,
     FolderKanban,
     LayoutGrid,
+    LayoutTemplate,
     Mail,
     MapPin,
     UserCog,
@@ -43,6 +44,11 @@ const mainNavItems: NavItem[] = [
         title: 'Offertes',
         href: '/dashboard/quotes',
         icon: FileText,
+    },
+    {
+        title: 'Templates',
+        href: '/dashboard/calculation-templates',
+        icon: LayoutTemplate,
     },
     {
         title: 'Klanten',

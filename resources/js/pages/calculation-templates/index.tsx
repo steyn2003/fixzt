@@ -49,7 +49,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Calculatie Templates', href: '/dashboard/calculation-templates' },
 ];
 
-export default function CalculationTemplatesIndex({ templates, search }: Props) {
+export default function CalculationTemplatesIndex({
+    templates,
+    search,
+}: Props) {
     const [deleteId, setDeleteId] = useState<number | null>(null);
     const [searchValue, setSearchValue] = useState(search || '');
 
@@ -63,10 +66,14 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        router.get('/dashboard/calculation-templates', searchValue ? { search: searchValue } : {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
+        router.get(
+            '/dashboard/calculation-templates',
+            searchValue ? { search: searchValue } : {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
     };
 
     return (
@@ -98,11 +105,13 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
                         <form onSubmit={handleSearch} className="mb-6">
                             <div className="flex gap-2">
                                 <div className="relative flex-1">
-                                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                    <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                     <Input
                                         placeholder="Zoek op naam..."
                                         value={searchValue}
-                                        onChange={(e) => setSearchValue(e.target.value)}
+                                        onChange={(e) =>
+                                            setSearchValue(e.target.value)
+                                        }
                                         className="pl-10"
                                     />
                                 </div>
@@ -124,7 +133,9 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
                                             <TableHead>Naam</TableHead>
                                             <TableHead>Beschrijving</TableHead>
                                             <TableHead>Standaard</TableHead>
-                                            <TableHead className="text-right">Acties</TableHead>
+                                            <TableHead className="text-right">
+                                                Acties
+                                            </TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -133,23 +144,37 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
                                                 <TableCell className="font-medium">
                                                     {template.name}
                                                 </TableCell>
-                                                <TableCell>{template.description || '-'}</TableCell>
+                                                <TableCell className="max-w-md truncate">
+                                                    {template.description ||
+                                                        '-'}
+                                                </TableCell>
                                                 <TableCell>
                                                     {template.is_default && (
-                                                        <Badge>Standaard</Badge>
+                                                        <Badge variant="secondary">
+                                                            Standaard
+                                                        </Badge>
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="text-right">
                                                     <div className="flex justify-end gap-2">
-                                                        <Link href={`/dashboard/calculation-templates/${template.id}/edit`}>
-                                                            <Button variant="ghost" size="icon">
+                                                        <Link
+                                                            href={`/dashboard/calculation-templates/${template.id}/edit`}
+                                                        >
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                            >
                                                                 <Pencil className="h-4 w-4" />
                                                             </Button>
                                                         </Link>
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
-                                                            onClick={() => setDeleteId(template.id)}
+                                                            onClick={() =>
+                                                                setDeleteId(
+                                                                    template.id,
+                                                                )
+                                                            }
                                                         >
                                                             <Trash2 className="h-4 w-4 text-destructive" />
                                                         </Button>
@@ -167,11 +192,17 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
                                 {templates.links.map((link, index) => (
                                     <Button
                                         key={index}
-                                        variant={link.active ? 'default' : 'outline'}
+                                        variant={
+                                            link.active ? 'default' : 'outline'
+                                        }
                                         size="sm"
                                         disabled={!link.url}
-                                        onClick={() => link.url && router.get(link.url)}
-                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                        onClick={() =>
+                                            link.url && router.get(link.url)
+                                        }
+                                        dangerouslySetInnerHTML={{
+                                            __html: link.label,
+                                        }}
                                     />
                                 ))}
                             </div>
@@ -180,17 +211,25 @@ export default function CalculationTemplatesIndex({ templates, search }: Props) 
                 </Card>
             </div>
 
-            <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
+            <AlertDialog
+                open={deleteId !== null}
+                onOpenChange={() => setDeleteId(null)}
+            >
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Weet u het zeker?</AlertDialogTitle>
                         <AlertDialogDescription>
                             Deze template wordt permanent verwijderd.
+                            Calculaties die deze template gebruiken blijven
+                            behouden.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        <AlertDialogAction
+                            onClick={handleDelete}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
                             Verwijderen
                         </AlertDialogAction>
                     </AlertDialogFooter>

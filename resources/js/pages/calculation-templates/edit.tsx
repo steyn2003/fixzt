@@ -19,11 +19,17 @@ interface Props {
     template: CalculationTemplate;
 }
 
-export default function CalculationTemplateEdit({ template }: Props) {
+export default function CalculationTemplatesEdit({ template }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: '/dashboard' },
-        { title: 'Calculatie Templates', href: '/dashboard/calculation-templates' },
-        { title: template.name, href: `/dashboard/calculation-templates/${template.id}/edit` },
+        {
+            title: 'Calculatie Templates',
+            href: '/dashboard/calculation-templates',
+        },
+        {
+            title: template.name,
+            href: `/dashboard/calculation-templates/${template.id}/edit`,
+        },
     ];
 
     const { data, setData, put, processing, errors } = useForm({
@@ -43,14 +49,14 @@ export default function CalculationTemplateEdit({ template }: Props) {
             <Head title={`Template Bewerken - ${template.name}`} />
 
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
-                <Card className="max-w-2xl">
+                <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileText className="h-5 w-5" />
                             Template Bewerken
                         </CardTitle>
                         <CardDescription>
-                            Bewerk de calculatie template
+                            Wijzig de gegevens van deze template
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -60,23 +66,53 @@ export default function CalculationTemplateEdit({ template }: Props) {
                                 <Input
                                     id="name"
                                     value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('name', e.target.value)
+                                    }
+                                    placeholder="Bijv. Standaard Calculatie"
                                 />
                                 {errors.name && (
-                                    <p className="text-sm text-destructive">{errors.name}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.name}
+                                    </p>
                                 )}
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="description">Beschrijving</Label>
+                                <Label htmlFor="description">
+                                    Beschrijving
+                                </Label>
                                 <Textarea
                                     id="description"
                                     value={data.description}
-                                    onChange={(e) => setData('description', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('description', e.target.value)
+                                    }
+                                    placeholder="Korte beschrijving van de template..."
                                     rows={3}
                                 />
                                 {errors.description && (
-                                    <p className="text-sm text-destructive">{errors.description}</p>
+                                    <p className="text-sm text-destructive">
+                                        {errors.description}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="content">Template Inhoud</Label>
+                                <Textarea
+                                    id="content"
+                                    value={data.content}
+                                    onChange={(e) =>
+                                        setData('content', e.target.value)
+                                    }
+                                    placeholder="Standaard tekst of notities voor deze template..."
+                                    rows={6}
+                                />
+                                {errors.content && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.content}
+                                    </p>
                                 )}
                             </div>
 
@@ -84,14 +120,23 @@ export default function CalculationTemplateEdit({ template }: Props) {
                                 <Checkbox
                                     id="is_default"
                                     checked={data.is_default}
-                                    onCheckedChange={(checked) => setData('is_default', checked as boolean)}
+                                    onCheckedChange={(checked) =>
+                                        setData('is_default', checked === true)
+                                    }
                                 />
-                                <Label htmlFor="is_default">Standaard template</Label>
+                                <Label
+                                    htmlFor="is_default"
+                                    className="cursor-pointer"
+                                >
+                                    Instellen als standaard template
+                                </Label>
                             </div>
 
                             <div className="flex gap-4">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Opslaan...' : 'Opslaan'}
+                                    {processing
+                                        ? 'Bezig...'
+                                        : 'Wijzigingen Opslaan'}
                                 </Button>
                                 <Link href="/dashboard/calculation-templates">
                                     <Button type="button" variant="outline">

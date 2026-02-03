@@ -90,6 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Quotes
     Route::resource('dashboard/quotes', QuoteController::class)->names('quotes');
     Route::post('dashboard/quotes/extract', [QuoteController::class, 'extract'])->name('quotes.extract');
+    Route::get('dashboard/quotes/extract/{extractionId}', [QuoteController::class, 'extractStatus'])->name('quotes.extract.status');
     Route::get('dashboard/quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
     Route::post('dashboard/quotes/{quote}/convert', [QuoteController::class, 'convert'])->name('quotes.convert');
 

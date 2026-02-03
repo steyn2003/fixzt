@@ -174,6 +174,85 @@ export default function QuoteEdit({
         }
     };
 
+    const pollExtractionStatus = async (extractionId: string) => {
+        const maxAttempts = 60;
+        let attempts = 0;
+
+        const poll = async (): Promise<void> => {
+            try {
+                const response = await axios.get(
+                    `/dashboard/quotes/extract/${extractionId}`,
+                );
+
+                if (response.data.status === 'processing') {
+                    attempts++;
+                    if (attempts < maxAttempts) {
+                        await new Promise((resolve) =>
+                            setTimeout(resolve, 2000),
+                        );
+                        return poll();
+                    } else {
+                        setExtractError(
+                            'De extractie duurde te lang. Probeer het opnieuw.',
+                        );
+                        setExtracting(false);
+                    }
+                } else if (response.data.status === 'completed') {
+                    if (response.data.lines && response.data.lines.length > 0) {
+                        const extractedLines = response.data.lines.map(
+                            (
+                                line: {
+                                    description: string;
+                                    quantity: number;
+                                    unit: string;
+                                    unit_price: number;
+                                },
+                                index: number,
+                            ) => {
+                                const newLine: Omit<
+                                    QuoteLine,
+                                    'id' | 'quote_id'
+                                > = {
+                                    description: line.description,
+                                    quantity: line.quantity || 1,
+                                    unit: line.unit || 'stuks',
+                                    unit_cost: line.unit_price || 0,
+                                    markup_percentage: data.markup_percentage,
+                                    unit_price: 0,
+                                    total: 0,
+                                    sort_order: index,
+                                };
+                                return {
+                                    ...newLine,
+                                    ...calculateLinePrice(newLine),
+                                };
+                            },
+                        );
+                        setData('lines', extractedLines);
+                    } else {
+                        setExtractError(
+                            response.data.message ||
+                                'Geen regels gevonden in het bestand.',
+                        );
+                    }
+                    setExtracting(false);
+                } else if (response.data.status === 'failed') {
+                    setExtractError(
+                        response.data.message || 'Er is een fout opgetreden.',
+                    );
+                    setExtracting(false);
+                }
+            } catch {
+                setExtractError(
+                    'Fout bij het ophalen van de extractie status.',
+                );
+                setExtracting(false);
+            }
+        };
+
+        await poll();
+    };
+
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -193,7 +272,9 @@ export default function QuoteEdit({
                 },
             );
 
-            if (response.data.lines && response.data.lines.length > 0) {
+            if (response.data.extraction_id) {
+                await pollExtractionStatus(response.data.extraction_id);
+            } else if (response.data.lines && response.data.lines.length > 0) {
                 const extractedLines = response.data.lines.map(
                     (
                         line: {
@@ -217,17 +298,19 @@ export default function QuoteEdit({
                         return { ...newLine, ...calculateLinePrice(newLine) };
                     },
                 );
+                setExtracting(false);
                 setData('lines', extractedLines);
             } else {
                 setExtractError(
                     response.data.message ||
                         'Geen regels gevonden in het bestand.',
                 );
+                setExtracting(false);
             }
         } catch {
             setExtractError('Fout bij het verwerken van het bestand.');
-        } finally {
             setExtracting(false);
+        } finally {
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }

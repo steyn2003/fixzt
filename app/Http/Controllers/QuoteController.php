@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Agents\QuoteExtractionAgent;
+use App\Jobs\ExtractQuoteLinesJob;
 use App\Models\Client;
 use App\Models\Location;
 use App\Models\Project;
@@ -10,8 +10,9 @@ use App\Models\Quote;
 use App\Models\QuoteTemplate;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
-use NeuronAI\Chat\Messages\UserMessage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Smalot\PdfParser\Parser as PdfParser;
 
@@ -206,21 +207,33 @@ class QuoteController extends Controller
             ]);
         }
 
-        $agent = new QuoteExtractionAgent;
-        $response = $agent->chat(new UserMessage($content));
+        // Generate unique extraction ID and dispatch job
+        $extractionId = Str::uuid()->toString();
 
-        $lines = json_decode($response->getContent(), true);
+        Cache::put("quote_extraction:{$extractionId}", [
+            'status' => 'processing',
+        ], now()->addMinutes(10));
 
-        if (! is_array($lines)) {
-            return response()->json([
-                'lines' => [],
-                'message' => 'Kon geen regels extraheren uit het bestand.',
-            ]);
-        }
+        ExtractQuoteLinesJob::dispatch($extractionId, $content);
 
         return response()->json([
-            'lines' => $lines,
+            'extraction_id' => $extractionId,
+            'status' => 'processing',
         ]);
+    }
+
+    public function extractStatus(string $extractionId)
+    {
+        $result = Cache::get("quote_extraction:{$extractionId}");
+
+        if (! $result) {
+            return response()->json([
+                'status' => 'not_found',
+                'message' => 'Extractie niet gevonden.',
+            ], 404);
+        }
+
+        return response()->json($result);
     }
 
     protected function extractFromPdf($file): string

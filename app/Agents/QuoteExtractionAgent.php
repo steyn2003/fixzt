@@ -5,6 +5,7 @@ namespace App\Agents;
 use NeuronAI\Agent;
 use NeuronAI\Providers\AIProviderInterface;
 use NeuronAI\Providers\Anthropic\Anthropic;
+use NeuronAI\Providers\HttpClientOptions;
 
 class QuoteExtractionAgent extends Agent
 {
@@ -13,6 +14,7 @@ class QuoteExtractionAgent extends Agent
         return new Anthropic(
             key: config('services.anthropic.api_key'),
             model: 'claude-sonnet-4-20250514',
+            httpOptions: new HttpClientOptions(timeout: 120),
         );
     }
 

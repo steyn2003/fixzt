@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -24,17 +25,8 @@ return new class extends Migration
             });
         }
 
-        // Now drop old quotes table if it still exists (shouldn't after rename, but just in case)
-        if (Schema::hasTable('quotes')) {
-            Schema::dropIfExists('quotes');
-        }
-
-        // Drop any leftover indexes from the old quotes table (SQLite keeps them after table drop)
-        try {
-            \DB::statement('DROP INDEX IF EXISTS quotes_quote_number_unique');
-        } catch (\Exception $e) {
-            // Ignore if index doesn't exist
-        }
+        // Always drop the quotes table first if it exists (handles PostgreSQL properly)
+        Schema::dropIfExists('quotes');
 
         // Create the new simplified quotes table
         Schema::create('quotes', function (Blueprint $table) {

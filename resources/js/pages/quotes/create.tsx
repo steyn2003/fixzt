@@ -25,7 +25,13 @@ import {
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Client, type Location, type QuoteLine, type QuoteTemplate } from '@/types';
+import {
+    type BreadcrumbItem,
+    type Client,
+    type Location,
+    type QuoteLine,
+    type QuoteTemplate,
+} from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import axios from 'axios';
 import { FileText, Loader2, Plus, Trash2, Upload } from 'lucide-react';
@@ -59,7 +65,7 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
     const [extracting, setExtracting] = useState(false);
     const [extractError, setExtractError] = useState<string | null>(null);
 
-    const defaultTemplate = templates.find(t => t.is_default) || templates[0];
+    const defaultTemplate = templates.find((t) => t.is_default) || templates[0];
 
     const { data, setData, post, processing, errors } = useForm({
         client_id: '' as string | number,
@@ -76,14 +82,15 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
     });
 
     const filteredLocations = data.client_id
-        ? locations.filter(l => l.client_id === Number(data.client_id))
+        ? locations.filter((l) => l.client_id === Number(data.client_id))
         : locations;
 
     const handleClientChange = (clientId: string) => {
-        const client = clients.find(c => c.id === Number(clientId));
-        setData(prev => ({
+        const actualId = clientId === 'none' ? '' : clientId;
+        const client = clients.find((c) => c.id === Number(actualId));
+        setData((prev) => ({
             ...prev,
-            client_id: clientId,
+            client_id: actualId,
             location_id: '',
             customer_name: client?.name || prev.customer_name,
             customer_email: client?.email || prev.customer_email,
@@ -92,11 +99,14 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
     };
 
     const handleLocationChange = (locationId: string) => {
-        const location = locations.find(l => l.id === Number(locationId));
-        setData(prev => ({
+        const actualId = locationId === 'none' ? '' : locationId;
+        const location = locations.find((l) => l.id === Number(actualId));
+        setData((prev) => ({
             ...prev,
-            location_id: locationId,
-            customer_address: location ? `${location.address}\n${location.city}` : prev.customer_address,
+            location_id: actualId,
+            customer_address: location
+                ? `${location.address}\n${location.city}`
+                : prev.customer_address,
         }));
     };
 
@@ -106,7 +116,11 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
         return { unit_price: unitPrice, total };
     };
 
-    const updateLine = (index: number, field: keyof QuoteLine, value: string | number) => {
+    const updateLine = (
+        index: number,
+        field: keyof QuoteLine,
+        value: string | number,
+    ) => {
         const newLines = [...data.lines];
         newLines[index] = { ...newLines[index], [field]: value };
         const calculated = calculateLinePrice(newLines[index]);
@@ -115,21 +129,31 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
     };
 
     const applyGlobalMarkup = () => {
-        const newLines = data.lines.map(line => {
-            const updated = { ...line, markup_percentage: data.markup_percentage };
+        const newLines = data.lines.map((line) => {
+            const updated = {
+                ...line,
+                markup_percentage: data.markup_percentage,
+            };
             return { ...updated, ...calculateLinePrice(updated) };
         });
         setData('lines', newLines);
     };
 
     const addLine = () => {
-        const newLine = { ...defaultLine, markup_percentage: data.markup_percentage, sort_order: data.lines.length };
+        const newLine = {
+            ...defaultLine,
+            markup_percentage: data.markup_percentage,
+            sort_order: data.lines.length,
+        };
         setData('lines', [...data.lines, newLine]);
     };
 
     const removeLine = (index: number) => {
         if (data.lines.length > 1) {
-            setData('lines', data.lines.filter((_, i) => i !== index));
+            setData(
+                'lines',
+                data.lines.filter((_, i) => i !== index),
+            );
         }
     };
 
@@ -144,27 +168,44 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('/dashboard/quotes/extract', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            const response = await axios.post(
+                '/dashboard/quotes/extract',
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                },
+            );
 
             if (response.data.lines && response.data.lines.length > 0) {
-                const extractedLines = response.data.lines.map((line: { description: string; quantity: number; unit: string; unit_price: number }, index: number) => {
-                    const newLine: Omit<QuoteLine, 'id' | 'quote_id'> = {
-                        description: line.description,
-                        quantity: line.quantity || 1,
-                        unit: line.unit || 'stuks',
-                        unit_cost: line.unit_price || 0,
-                        markup_percentage: data.markup_percentage,
-                        unit_price: 0,
-                        total: 0,
-                        sort_order: index,
-                    };
-                    return { ...newLine, ...calculateLinePrice(newLine) };
-                });
+                const extractedLines = response.data.lines.map(
+                    (
+                        line: {
+                            description: string;
+                            quantity: number;
+                            unit: string;
+                            unit_price: number;
+                        },
+                        index: number,
+                    ) => {
+                        const newLine: Omit<QuoteLine, 'id' | 'quote_id'> = {
+                            description: line.description,
+                            quantity: line.quantity || 1,
+                            unit: line.unit || 'stuks',
+                            unit_cost: line.unit_price || 0,
+                            markup_percentage: data.markup_percentage,
+                            unit_price: 0,
+                            total: 0,
+                            sort_order: index,
+                        };
+                        return { ...newLine, ...calculateLinePrice(newLine) };
+                    },
+                );
                 setData('lines', extractedLines);
             } else {
-                setExtractError(response.data.message || 'Geen regels gevonden in het bestand.');
+                setExtractError(
+                    response.data.message ||
+                        'Geen regels gevonden in het bestand.',
+                );
             }
         } catch {
             setExtractError('Fout bij het verwerken van het bestand.');
@@ -188,7 +229,10 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
         }).format(price);
     };
 
-    const totalCost = data.lines.reduce((sum, line) => sum + (line.quantity * line.unit_cost), 0);
+    const totalCost = data.lines.reduce(
+        (sum, line) => sum + line.quantity * line.unit_cost,
+        0,
+    );
     const totalPrice = data.lines.reduce((sum, line) => sum + line.total, 0);
     const totalMarkup = totalPrice - totalCost;
 
@@ -214,14 +258,25 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
                                     <Label>Bestaande Klant (optioneel)</Label>
-                                    <Select value={data.client_id.toString()} onValueChange={handleClientChange}>
+                                    <Select
+                                        value={
+                                            data.client_id.toString() ||
+                                            undefined
+                                        }
+                                        onValueChange={handleClientChange}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecteer klant" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="">Geen klant</SelectItem>
-                                            {clients.map(client => (
-                                                <SelectItem key={client.id} value={client.id.toString()}>
+                                            <SelectItem value="none">
+                                                Geen klant
+                                            </SelectItem>
+                                            {clients.map((client) => (
+                                                <SelectItem
+                                                    key={client.id}
+                                                    value={client.id.toString()}
+                                                >
                                                     {client.name}
                                                 </SelectItem>
                                             ))}
@@ -230,17 +285,32 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Locatie (optioneel)</Label>
-                                    <Select value={data.location_id.toString()} onValueChange={handleLocationChange}>
+                                    <Select
+                                        value={
+                                            data.location_id.toString() ||
+                                            undefined
+                                        }
+                                        onValueChange={handleLocationChange}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecteer locatie" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="">Geen locatie</SelectItem>
-                                            {filteredLocations.map(location => (
-                                                <SelectItem key={location.id} value={location.id.toString()}>
-                                                    {location.name} {location.client && `(${location.client.name})`}
-                                                </SelectItem>
-                                            ))}
+                                            <SelectItem value="none">
+                                                Geen locatie
+                                            </SelectItem>
+                                            {filteredLocations.map(
+                                                (location) => (
+                                                    <SelectItem
+                                                        key={location.id}
+                                                        value={location.id.toString()}
+                                                    >
+                                                        {location.name}{' '}
+                                                        {location.client &&
+                                                            `(${location.client.name})`}
+                                                    </SelectItem>
+                                                ),
+                                            )}
                                         </SelectContent>
                                     </Select>
                                 </div>
@@ -249,24 +319,40 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                             {/* Customer Details */}
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="customer_name">Klantnaam *</Label>
+                                    <Label htmlFor="customer_name">
+                                        Klantnaam *
+                                    </Label>
                                     <Input
                                         id="customer_name"
                                         value={data.customer_name}
-                                        onChange={e => setData('customer_name', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'customer_name',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Naam van de klant"
                                     />
                                     {errors.customer_name && (
-                                        <p className="text-sm text-destructive">{errors.customer_name}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.customer_name}
+                                        </p>
                                     )}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="customer_email">E-mail</Label>
+                                    <Label htmlFor="customer_email">
+                                        E-mail
+                                    </Label>
                                     <Input
                                         id="customer_email"
                                         type="email"
                                         value={data.customer_email}
-                                        onChange={e => setData('customer_email', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'customer_email',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="klant@voorbeeld.nl"
                                     />
                                 </div>
@@ -274,30 +360,51 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="customer_phone">Telefoon</Label>
+                                    <Label htmlFor="customer_phone">
+                                        Telefoon
+                                    </Label>
                                     <Input
                                         id="customer_phone"
                                         value={data.customer_phone}
-                                        onChange={e => setData('customer_phone', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'customer_phone',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="06-12345678"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="template_id">Template *</Label>
-                                    <Select value={data.template_id} onValueChange={v => setData('template_id', v)}>
+                                    <Label htmlFor="template_id">
+                                        Template *
+                                    </Label>
+                                    <Select
+                                        value={data.template_id}
+                                        onValueChange={(v) =>
+                                            setData('template_id', v)
+                                        }
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecteer template" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {templates.map(template => (
-                                                <SelectItem key={template.id} value={template.id.toString()}>
-                                                    {template.name} {template.is_default && '(Standaard)'}
+                                            {templates.map((template) => (
+                                                <SelectItem
+                                                    key={template.id}
+                                                    value={template.id.toString()}
+                                                >
+                                                    {template.name}{' '}
+                                                    {template.is_default &&
+                                                        '(Standaard)'}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                     {errors.template_id && (
-                                        <p className="text-sm text-destructive">{errors.template_id}</p>
+                                        <p className="text-sm text-destructive">
+                                            {errors.template_id}
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -307,7 +414,12 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                 <Textarea
                                     id="customer_address"
                                     value={data.customer_address}
-                                    onChange={e => setData('customer_address', e.target.value)}
+                                    onChange={(e) =>
+                                        setData(
+                                            'customer_address',
+                                            e.target.value,
+                                        )
+                                    }
                                     placeholder="Straat en huisnummer&#10;Postcode Plaats"
                                     rows={3}
                                 />
@@ -315,7 +427,9 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
 
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="markup_percentage">Standaard Marge (%)</Label>
+                                    <Label htmlFor="markup_percentage">
+                                        Standaard Marge (%)
+                                    </Label>
                                     <div className="flex gap-2">
                                         <Input
                                             id="markup_percentage"
@@ -324,21 +438,39 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                             min="0"
                                             max="100"
                                             value={data.markup_percentage}
-                                            onChange={e => setData('markup_percentage', parseFloat(e.target.value) || 0)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    'markup_percentage',
+                                                    parseFloat(
+                                                        e.target.value,
+                                                    ) || 0,
+                                                )
+                                            }
                                             className="flex-1"
                                         />
-                                        <Button type="button" variant="secondary" onClick={applyGlobalMarkup}>
+                                        <Button
+                                            type="button"
+                                            variant="secondary"
+                                            onClick={applyGlobalMarkup}
+                                        >
                                             Toepassen
                                         </Button>
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="valid_until">Geldig tot</Label>
+                                    <Label htmlFor="valid_until">
+                                        Geldig tot
+                                    </Label>
                                     <Input
                                         id="valid_until"
                                         type="date"
                                         value={data.valid_until}
-                                        onChange={e => setData('valid_until', e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                'valid_until',
+                                                e.target.value,
+                                            )
+                                        }
                                     />
                                 </div>
                             </div>
@@ -361,7 +493,9 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                     <Button
                                         type="button"
                                         variant="outline"
-                                        onClick={() => fileInputRef.current?.click()}
+                                        onClick={() =>
+                                            fileInputRef.current?.click()
+                                        }
                                         disabled={extracting}
                                     >
                                         {extracting ? (
@@ -376,14 +510,20 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                             </>
                                         )}
                                     </Button>
-                                    <Button type="button" variant="outline" onClick={addLine}>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={addLine}
+                                    >
                                         <Plus className="mr-2 h-4 w-4" />
                                         Regel Toevoegen
                                     </Button>
                                 </div>
                             </div>
                             {extractError && (
-                                <p className="text-sm text-destructive">{extractError}</p>
+                                <p className="text-sm text-destructive">
+                                    {extractError}
+                                </p>
                             )}
                         </CardHeader>
                         <CardContent>
@@ -391,13 +531,27 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead className="w-[300px]">Omschrijving</TableHead>
-                                            <TableHead className="w-[80px]">Aantal</TableHead>
-                                            <TableHead className="w-[80px]">Eenheid</TableHead>
-                                            <TableHead className="w-[100px]">Inkoopprijs</TableHead>
-                                            <TableHead className="w-[80px]">Marge %</TableHead>
-                                            <TableHead className="w-[100px]">Verkoopprijs</TableHead>
-                                            <TableHead className="w-[100px]">Totaal</TableHead>
+                                            <TableHead className="w-[300px]">
+                                                Omschrijving
+                                            </TableHead>
+                                            <TableHead className="w-[80px]">
+                                                Aantal
+                                            </TableHead>
+                                            <TableHead className="w-[80px]">
+                                                Eenheid
+                                            </TableHead>
+                                            <TableHead className="w-[100px]">
+                                                Inkoopprijs
+                                            </TableHead>
+                                            <TableHead className="w-[80px]">
+                                                Marge %
+                                            </TableHead>
+                                            <TableHead className="w-[100px]">
+                                                Verkoopprijs
+                                            </TableHead>
+                                            <TableHead className="w-[100px]">
+                                                Totaal
+                                            </TableHead>
                                             <TableHead className="w-[50px]"></TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -407,7 +561,13 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                                 <TableCell>
                                                     <Input
                                                         value={line.description}
-                                                        onChange={e => updateLine(index, 'description', e.target.value)}
+                                                        onChange={(e) =>
+                                                            updateLine(
+                                                                index,
+                                                                'description',
+                                                                e.target.value,
+                                                            )
+                                                        }
                                                         placeholder="Omschrijving"
                                                     />
                                                 </TableCell>
@@ -417,13 +577,28 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                                         step="0.01"
                                                         min="0.01"
                                                         value={line.quantity}
-                                                        onChange={e => updateLine(index, 'quantity', parseFloat(e.target.value) || 0)}
+                                                        onChange={(e) =>
+                                                            updateLine(
+                                                                index,
+                                                                'quantity',
+                                                                parseFloat(
+                                                                    e.target
+                                                                        .value,
+                                                                ) || 0,
+                                                            )
+                                                        }
                                                     />
                                                 </TableCell>
                                                 <TableCell>
                                                     <Input
                                                         value={line.unit || ''}
-                                                        onChange={e => updateLine(index, 'unit', e.target.value)}
+                                                        onChange={(e) =>
+                                                            updateLine(
+                                                                index,
+                                                                'unit',
+                                                                e.target.value,
+                                                            )
+                                                        }
                                                         placeholder="stuks"
                                                     />
                                                 </TableCell>
@@ -433,7 +608,16 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                                         step="0.01"
                                                         min="0"
                                                         value={line.unit_cost}
-                                                        onChange={e => updateLine(index, 'unit_cost', parseFloat(e.target.value) || 0)}
+                                                        onChange={(e) =>
+                                                            updateLine(
+                                                                index,
+                                                                'unit_cost',
+                                                                parseFloat(
+                                                                    e.target
+                                                                        .value,
+                                                                ) || 0,
+                                                            )
+                                                        }
                                                     />
                                                 </TableCell>
                                                 <TableCell>
@@ -442,12 +626,25 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                                         step="0.1"
                                                         min="0"
                                                         max="100"
-                                                        value={line.markup_percentage}
-                                                        onChange={e => updateLine(index, 'markup_percentage', parseFloat(e.target.value) || 0)}
+                                                        value={
+                                                            line.markup_percentage
+                                                        }
+                                                        onChange={(e) =>
+                                                            updateLine(
+                                                                index,
+                                                                'markup_percentage',
+                                                                parseFloat(
+                                                                    e.target
+                                                                        .value,
+                                                                ) || 0,
+                                                            )
+                                                        }
                                                     />
                                                 </TableCell>
                                                 <TableCell className="text-right">
-                                                    {formatPrice(line.unit_price)}
+                                                    {formatPrice(
+                                                        line.unit_price,
+                                                    )}
                                                 </TableCell>
                                                 <TableCell className="text-right font-medium">
                                                     {formatPrice(line.total)}
@@ -457,8 +654,13 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                                         type="button"
                                                         variant="ghost"
                                                         size="icon"
-                                                        onClick={() => removeLine(index)}
-                                                        disabled={data.lines.length <= 1}
+                                                        onClick={() =>
+                                                            removeLine(index)
+                                                        }
+                                                        disabled={
+                                                            data.lines.length <=
+                                                            1
+                                                        }
                                                     >
                                                         <Trash2 className="h-4 w-4 text-destructive" />
                                                     </Button>
@@ -478,7 +680,9 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                                     </div>
                                     <div className="flex justify-between text-sm">
                                         <span>Marge totaal:</span>
-                                        <span className="text-green-600">{formatPrice(totalMarkup)}</span>
+                                        <span className="text-green-600">
+                                            {formatPrice(totalMarkup)}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between border-t pt-2 text-lg font-bold">
                                         <span>Totaal:</span>
@@ -488,7 +692,9 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                             </div>
 
                             {errors.lines && (
-                                <p className="mt-2 text-sm text-destructive">{errors.lines}</p>
+                                <p className="mt-2 text-sm text-destructive">
+                                    {errors.lines}
+                                </p>
                             )}
                         </CardContent>
                     </Card>
@@ -501,7 +707,9 @@ export default function QuoteCreate({ clients, locations, templates }: Props) {
                         <CardContent>
                             <Textarea
                                 value={data.notes}
-                                onChange={e => setData('notes', e.target.value)}
+                                onChange={(e) =>
+                                    setData('notes', e.target.value)
+                                }
                                 placeholder="Interne opmerkingen bij deze offerte..."
                                 rows={3}
                             />

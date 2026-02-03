@@ -41,6 +41,7 @@ export default function QuoteCreate({
     const { data, setData, post, processing, errors } = useForm({
         calculation_id: selectedCalculation?.id.toString() || '',
         client_id: selectedCalculation?.client_id?.toString() || '',
+        title: '',
         description: 'Werkzaamheden conform calculatie',
         valid_until: '',
         notes: '',
@@ -182,6 +183,29 @@ export default function QuoteCreate({
                                     </div>
                                 </div>
                             )}
+
+                            <div className="space-y-2">
+                                <Label htmlFor="title">
+                                    Titel (voor voorpagina) *
+                                </Label>
+                                <Input
+                                    id="title"
+                                    value={data.title}
+                                    onChange={(e) =>
+                                        setData('title', e.target.value)
+                                    }
+                                    placeholder="Bijv. Vervangen verlichting Warehouse"
+                                />
+                                {errors.title && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.title}
+                                    </p>
+                                )}
+                                <p className="text-xs text-muted-foreground">
+                                    Deze titel verschijnt op de voorpagina van
+                                    de offerte PDF
+                                </p>
+                            </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="description">

@@ -122,6 +122,7 @@ export interface Quote {
     quote_number: string;
     calculation_id: number;
     client_id: number | null;
+    title: string | null;
     description: string;
     valid_until: string | null;
     notes: string | null;

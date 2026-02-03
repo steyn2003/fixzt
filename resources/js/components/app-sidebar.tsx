@@ -12,6 +12,7 @@ import {
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
+    Calculator,
     FileText,
     FolderKanban,
     LayoutGrid,
@@ -32,6 +33,11 @@ const mainNavItems: NavItem[] = [
         title: 'Projecten',
         href: '/dashboard/projects',
         icon: FolderKanban,
+    },
+    {
+        title: 'Calculaties',
+        href: '/dashboard/calculations',
+        icon: Calculator,
     },
     {
         title: 'Offertes',

@@ -82,9 +82,24 @@ class Calculation extends Model
         return $this->hasOne(Quote::class);
     }
 
-    public function getSubtotalAttribute(): float
+    public function getLinesSubtotalAttribute(): float
     {
         return $this->lines->sum('total');
+    }
+
+    public function getProjectManagementFeeAttribute(): float
+    {
+        return $this->lines_subtotal * 0.06; // 6% project management fee
+    }
+
+    public function getWinstRisicoFeeAttribute(): float
+    {
+        return $this->lines_subtotal * 0.03; // 3% winst & risico
+    }
+
+    public function getSubtotalAttribute(): float
+    {
+        return $this->lines_subtotal + $this->project_management_fee + $this->winst_risico_fee;
     }
 
     public function getTotalCostAttribute(): float

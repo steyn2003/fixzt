@@ -11,21 +11,14 @@ class Quote extends Model
         'quote_number',
         'calculation_id',
         'client_id',
-        'location_id',
-        'project_id',
-        'customer_name',
-        'customer_email',
-        'customer_phone',
-        'customer_address',
+        'title',
         'description',
         'notes',
         'valid_until',
-        'converted_at',
     ];
 
     protected $casts = [
         'valid_until' => 'date',
-        'converted_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -46,7 +39,7 @@ class Quote extends Model
 
         $sequence = $last ? ((int) substr($last->quote_number, -4)) + 1 : 1;
 
-        return sprintf('Q%s-%04d', $year, $sequence);
+        return sprintf('OFF%s-%04d', $year, $sequence);
     }
 
     public function calculation(): BelongsTo
@@ -57,16 +50,6 @@ class Quote extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
-    }
-
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(Location::class);
-    }
-
-    public function project(): BelongsTo
-    {
-        return $this->belongsTo(Project::class);
     }
 
     public function getTotalAttribute(): float

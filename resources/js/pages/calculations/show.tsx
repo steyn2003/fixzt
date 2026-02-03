@@ -10,12 +10,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -49,7 +44,6 @@ import {
     Calendar,
     Download,
     Euro,
-    FileText,
     FolderKanban,
     Mail,
     MapPin,
@@ -63,6 +57,9 @@ import { useState } from 'react';
 interface Props {
     calculation: Calculation;
     totals: {
+        lines_subtotal: number;
+        project_management_fee: number;
+        winst_risico_fee: number;
         subtotal: number;
         total_cost: number;
         total_markup: number;
@@ -83,7 +80,10 @@ export default function CalculationShow({ calculation, totals }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Dashboard', href: '/dashboard' },
         { title: 'Calculaties', href: '/dashboard/calculations' },
-        { title: calculation.calculation_number, href: `/dashboard/calculations/${calculation.id}` },
+        {
+            title: calculation.calculation_number,
+            href: `/dashboard/calculations/${calculation.id}`,
+        },
     ];
 
     const formatPrice = (price: number | string | null) => {
@@ -130,33 +130,47 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <div className="mb-2 flex items-center gap-3">
                                     <CardTitle className="flex items-center gap-2">
                                         <Calculator className="h-5 w-5" />
-                                        Calculatie {calculation.calculation_number}
+                                        Calculatie{' '}
+                                        {calculation.calculation_number}
                                     </CardTitle>
                                     {calculation.converted_at && (
-                                        <Badge variant="secondary">Omgezet naar project</Badge>
+                                        <Badge variant="secondary">
+                                            Omgezet naar project
+                                        </Badge>
                                     )}
                                 </div>
                             </div>
                             <div className="flex gap-2">
-                                <a href={`/dashboard/calculations/${calculation.id}/pdf`}>
+                                <a
+                                    href={`/dashboard/calculations/${calculation.id}/pdf`}
+                                >
                                     <Button variant="outline">
                                         <Download className="mr-2 h-4 w-4" />
                                         PDF Download
                                     </Button>
                                 </a>
-                                <Link href={`/dashboard/calculations/${calculation.id}/edit`}>
+                                <Link
+                                    href={`/dashboard/calculations/${calculation.id}/edit`}
+                                >
                                     <Button variant="outline">
                                         <Pencil className="mr-2 h-4 w-4" />
                                         Bewerken
                                     </Button>
                                 </Link>
                                 {!calculation.project_id && (
-                                    <Button onClick={() => setShowConvertDialog(true)}>
+                                    <Button
+                                        onClick={() =>
+                                            setShowConvertDialog(true)
+                                        }
+                                    >
                                         <FolderKanban className="mr-2 h-4 w-4" />
                                         Omzetten naar Project
                                     </Button>
                                 )}
-                                <Button variant="destructive" onClick={() => setShowDeleteDialog(true)}>
+                                <Button
+                                    variant="destructive"
+                                    onClick={() => setShowDeleteDialog(true)}
+                                >
                                     <Trash2 className="mr-2 h-4 w-4" />
                                     Verwijderen
                                 </Button>
@@ -169,7 +183,9 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <Users className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                 <div>
                                     <p className="text-sm font-medium">Klant</p>
-                                    <p className="text-sm">{calculation.customer_name}</p>
+                                    <p className="text-sm">
+                                        {calculation.customer_name}
+                                    </p>
                                     {calculation.client && (
                                         <Link
                                             href={`/dashboard/clients/${calculation.client.id}`}
@@ -184,8 +200,12 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <div className="flex items-start gap-3">
                                     <Mail className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                     <div>
-                                        <p className="text-sm font-medium">E-mail</p>
-                                        <p className="text-sm">{calculation.customer_email}</p>
+                                        <p className="text-sm font-medium">
+                                            E-mail
+                                        </p>
+                                        <p className="text-sm">
+                                            {calculation.customer_email}
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -193,8 +213,12 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <div className="flex items-start gap-3">
                                     <Phone className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                     <div>
-                                        <p className="text-sm font-medium">Telefoon</p>
-                                        <p className="text-sm">{calculation.customer_phone}</p>
+                                        <p className="text-sm font-medium">
+                                            Telefoon
+                                        </p>
+                                        <p className="text-sm">
+                                            {calculation.customer_phone}
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -202,8 +226,14 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <div className="flex items-start gap-3">
                                     <Calendar className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                     <div>
-                                        <p className="text-sm font-medium">Geldig tot</p>
-                                        <p className="text-sm">{formatDate(calculation.valid_until)}</p>
+                                        <p className="text-sm font-medium">
+                                            Geldig tot
+                                        </p>
+                                        <p className="text-sm">
+                                            {formatDate(
+                                                calculation.valid_until,
+                                            )}
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -213,13 +243,17 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <MapPin className="mt-0.5 h-5 w-5 text-muted-foreground" />
                                 <div>
                                     <p className="text-sm font-medium">Adres</p>
-                                    <p className="text-sm whitespace-pre-line">{calculation.customer_address}</p>
+                                    <p className="text-sm whitespace-pre-line">
+                                        {calculation.customer_address}
+                                    </p>
                                 </div>
                             </div>
                         )}
                         {calculation.project && (
                             <div className="mt-4 rounded-lg bg-muted p-4">
-                                <p className="text-sm font-medium">Gekoppeld Project</p>
+                                <p className="text-sm font-medium">
+                                    Gekoppeld Project
+                                </p>
                                 <Link
                                     href={`/dashboard/projects/${calculation.project.id}`}
                                     className="text-sm text-primary hover:underline"
@@ -240,22 +274,54 @@ export default function CalculationShow({ calculation, totals }: Props) {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid gap-4 md:grid-cols-4">
+                        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
                             <div className="rounded-lg border p-4">
-                                <p className="text-sm text-muted-foreground">Inkoopprijs</p>
-                                <p className="text-2xl font-bold">{formatPrice(totals.total_cost)}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    Materialen & Arbeid
+                                </p>
+                                <p className="text-xl font-bold">
+                                    {formatPrice(totals.lines_subtotal)}
+                                </p>
                             </div>
                             <div className="rounded-lg border p-4">
-                                <p className="text-sm text-muted-foreground">Marge ({calculation.markup_percentage}%)</p>
-                                <p className="text-2xl font-bold text-green-600">{formatPrice(totals.total_markup)}</p>
-                            </div>
-                            <div className="rounded-lg border p-4 bg-primary/5">
-                                <p className="text-sm text-muted-foreground">Totaal</p>
-                                <p className="text-2xl font-bold">{formatPrice(totals.subtotal)}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    Projectmanagement (6%)
+                                </p>
+                                <p className="text-xl font-bold">
+                                    {formatPrice(totals.project_management_fee)}
+                                </p>
                             </div>
                             <div className="rounded-lg border p-4">
-                                <p className="text-sm text-muted-foreground">Template</p>
-                                <p className="text-lg font-medium">{calculation.template?.name || '-'}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    Winst & Risico (3%)
+                                </p>
+                                <p className="text-xl font-bold">
+                                    {formatPrice(totals.winst_risico_fee)}
+                                </p>
+                            </div>
+                            <div className="rounded-lg border bg-primary/5 p-4">
+                                <p className="text-sm text-muted-foreground">
+                                    Totaal excl. BTW
+                                </p>
+                                <p className="text-xl font-bold">
+                                    {formatPrice(totals.subtotal)}
+                                </p>
+                            </div>
+                            <div className="rounded-lg border p-4">
+                                <p className="text-sm text-muted-foreground">
+                                    BTW (21%)
+                                </p>
+                                <p className="text-xl font-bold">
+                                    {formatPrice(totals.subtotal * 0.21)}
+                                </p>
+                            </div>
+                            <div className="rounded-lg border bg-green-50 p-4">
+                                <p className="text-sm text-muted-foreground">
+                                    Totaal incl. BTW
+                                </p>
+                                <p className="text-xl font-bold text-green-600">
+                                    {formatPrice(totals.subtotal * 1.21)}
+                                </p>
                             </div>
                         </div>
                     </CardContent>
@@ -272,27 +338,46 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Omschrijving</TableHead>
-                                        <TableHead className="text-right">Aantal</TableHead>
+                                        <TableHead className="text-right">
+                                            Aantal
+                                        </TableHead>
                                         <TableHead>Eenheid</TableHead>
-                                        <TableHead className="text-right">Inkoopprijs</TableHead>
-                                        <TableHead className="text-right">Marge %</TableHead>
-                                        <TableHead className="text-right">Verkoopprijs</TableHead>
-                                        <TableHead className="text-right">Totaal</TableHead>
+                                        <TableHead className="text-right">
+                                            Inkoopprijs
+                                        </TableHead>
+                                        <TableHead className="text-right">
+                                            Marge %
+                                        </TableHead>
+                                        <TableHead className="text-right">
+                                            Verkoopprijs
+                                        </TableHead>
+                                        <TableHead className="text-right">
+                                            Totaal
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {calculation.lines?.map((line) => (
                                         <TableRow key={line.id}>
-                                            <TableCell>{line.description}</TableCell>
-                                            <TableCell className="text-right">
-                                                {Number(line.quantity).toFixed(2)}
+                                            <TableCell>
+                                                {line.description}
                                             </TableCell>
-                                            <TableCell>{line.unit || 'stuks'}</TableCell>
+                                            <TableCell className="text-right">
+                                                {Number(line.quantity).toFixed(
+                                                    2,
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                {line.unit || 'stuks'}
+                                            </TableCell>
                                             <TableCell className="text-right">
                                                 {formatPrice(line.unit_cost)}
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                {Number(line.markup_percentage).toFixed(1)}%
+                                                {Number(
+                                                    line.markup_percentage,
+                                                ).toFixed(1)}
+                                                %
                                             </TableCell>
                                             <TableCell className="text-right">
                                                 {formatPrice(line.unit_price)}
@@ -315,24 +400,33 @@ export default function CalculationShow({ calculation, totals }: Props) {
                             <CardTitle>Opmerkingen</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-sm whitespace-pre-wrap">{calculation.notes}</p>
+                            <p className="text-sm whitespace-pre-wrap">
+                                {calculation.notes}
+                            </p>
                         </CardContent>
                     </Card>
                 )}
             </div>
 
             {/* Delete Dialog */}
-            <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+            <AlertDialog
+                open={showDeleteDialog}
+                onOpenChange={setShowDeleteDialog}
+            >
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Weet u het zeker?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Deze calculatie wordt permanent verwijderd. Deze actie kan niet ongedaan worden gemaakt.
+                            Deze calculatie wordt permanent verwijderd. Deze
+                            actie kan niet ongedaan worden gemaakt.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuleren</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                        <AlertDialogAction
+                            onClick={handleDelete}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
                             Verwijderen
                         </AlertDialogAction>
                     </AlertDialogFooter>
@@ -340,12 +434,16 @@ export default function CalculationShow({ calculation, totals }: Props) {
             </AlertDialog>
 
             {/* Convert to Project Dialog */}
-            <Dialog open={showConvertDialog} onOpenChange={setShowConvertDialog}>
+            <Dialog
+                open={showConvertDialog}
+                onOpenChange={setShowConvertDialog}
+            >
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Omzetten naar Project</DialogTitle>
                         <DialogDescription>
-                            Maak een nieuw project aan op basis van deze calculatie.
+                            Maak een nieuw project aan op basis van deze
+                            calculatie.
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleConvert} className="space-y-4">
@@ -354,22 +452,35 @@ export default function CalculationShow({ calculation, totals }: Props) {
                             <Input
                                 id="title"
                                 value={convertForm.data.title}
-                                onChange={e => convertForm.setData('title', e.target.value)}
+                                onChange={(e) =>
+                                    convertForm.setData('title', e.target.value)
+                                }
                             />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="type">Project Type *</Label>
                             <Select
                                 value={convertForm.data.type}
-                                onValueChange={(v: 'maintenance' | 'recurring' | 'renovation') => convertForm.setData('type', v)}
+                                onValueChange={(
+                                    v:
+                                        | 'maintenance'
+                                        | 'recurring'
+                                        | 'renovation',
+                                ) => convertForm.setData('type', v)}
                             >
                                 <SelectTrigger>
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="maintenance">Onderhoud</SelectItem>
-                                    <SelectItem value="recurring">Terugkerend</SelectItem>
-                                    <SelectItem value="renovation">Renovatie</SelectItem>
+                                    <SelectItem value="maintenance">
+                                        Onderhoud
+                                    </SelectItem>
+                                    <SelectItem value="recurring">
+                                        Terugkerend
+                                    </SelectItem>
+                                    <SelectItem value="renovation">
+                                        Renovatie
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -379,10 +490,17 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                     type="checkbox"
                                     id="create_client"
                                     checked={convertForm.data.create_client}
-                                    onChange={e => convertForm.setData('create_client', e.target.checked)}
+                                    onChange={(e) =>
+                                        convertForm.setData(
+                                            'create_client',
+                                            e.target.checked,
+                                        )
+                                    }
                                     className="h-4 w-4"
                                 />
-                                <Label htmlFor="create_client">Maak nieuwe klant aan</Label>
+                                <Label htmlFor="create_client">
+                                    Maak nieuwe klant aan
+                                </Label>
                             </div>
                         )}
                         {!calculation.location_id && (
@@ -391,18 +509,34 @@ export default function CalculationShow({ calculation, totals }: Props) {
                                     type="checkbox"
                                     id="create_location"
                                     checked={convertForm.data.create_location}
-                                    onChange={e => convertForm.setData('create_location', e.target.checked)}
+                                    onChange={(e) =>
+                                        convertForm.setData(
+                                            'create_location',
+                                            e.target.checked,
+                                        )
+                                    }
                                     className="h-4 w-4"
                                 />
-                                <Label htmlFor="create_location">Maak nieuwe locatie aan</Label>
+                                <Label htmlFor="create_location">
+                                    Maak nieuwe locatie aan
+                                </Label>
                             </div>
                         )}
                         <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setShowConvertDialog(false)}>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setShowConvertDialog(false)}
+                            >
                                 Annuleren
                             </Button>
-                            <Button type="submit" disabled={convertForm.processing}>
-                                {convertForm.processing ? 'Bezig...' : 'Project Aanmaken'}
+                            <Button
+                                type="submit"
+                                disabled={convertForm.processing}
+                            >
+                                {convertForm.processing
+                                    ? 'Bezig...'
+                                    : 'Project Aanmaken'}
                             </Button>
                         </DialogFooter>
                     </form>

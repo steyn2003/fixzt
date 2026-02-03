@@ -61,6 +61,7 @@ class QuoteController extends Controller
         $validated = $request->validate([
             'calculation_id' => 'required|exists:calculations,id',
             'client_id' => 'nullable|exists:clients,id',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
             'valid_until' => 'nullable|date',
             'notes' => 'nullable|string',
@@ -118,6 +119,7 @@ class QuoteController extends Controller
         $validated = $request->validate([
             'calculation_id' => 'required|exists:calculations,id',
             'client_id' => 'nullable|exists:clients,id',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
             'valid_until' => 'nullable|date',
             'notes' => 'nullable|string',

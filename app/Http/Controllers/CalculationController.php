@@ -106,6 +106,9 @@ class CalculationController extends Controller
         return Inertia::render('calculations/show', [
             'calculation' => $calculation,
             'totals' => [
+                'lines_subtotal' => $calculation->lines_subtotal,
+                'project_management_fee' => $calculation->project_management_fee,
+                'winst_risico_fee' => $calculation->winst_risico_fee,
                 'subtotal' => $calculation->subtotal,
                 'total_cost' => $calculation->total_cost,
                 'total_markup' => $calculation->total_markup,
@@ -271,9 +274,12 @@ class CalculationController extends Controller
     {
         $calculation->load(['client', 'location', 'template', 'lines']);
 
-        $pdf = Pdf::loadView('calculations.pdf', [
+        $pdf = Pdf::loadView('pdf.calculation', [
             'calculation' => $calculation,
             'totals' => [
+                'lines_subtotal' => $calculation->lines_subtotal,
+                'project_management_fee' => $calculation->project_management_fee,
+                'winst_risico_fee' => $calculation->winst_risico_fee,
                 'subtotal' => $calculation->subtotal,
                 'total_cost' => $calculation->total_cost,
                 'total_markup' => $calculation->total_markup,

@@ -7,6 +7,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ProjectMaterialController;
 use App\Http\Controllers\ProjectNoteController;
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\QuoteTemplateController;
 use App\Http\Controllers\TimeEntryController;
 use App\Http\Controllers\UserController;
 use App\Models\ContactSubmission;
@@ -84,6 +86,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Users
     Route::resource('dashboard/users', UserController::class)->names('users')->except(['show']);
+
+    // Quotes
+    Route::resource('dashboard/quotes', QuoteController::class)->names('quotes');
+    Route::post('dashboard/quotes/extract', [QuoteController::class, 'extract'])->name('quotes.extract');
+    Route::get('dashboard/quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
+    Route::post('dashboard/quotes/{quote}/convert', [QuoteController::class, 'convert'])->name('quotes.convert');
+
+    // Quote Templates
+    Route::resource('dashboard/quote-templates', QuoteTemplateController::class)->names('quote-templates')->except(['show']);
 });
 
 require __DIR__.'/settings.php';

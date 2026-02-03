@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('quote_lines', function (Blueprint $table) {
+        Schema::create('calculation_lines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('quote_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('calculation_id')->constrained()->cascadeOnDelete();
             $table->string('description');
             $table->decimal('quantity', 10, 2)->default(1);
             $table->string('unit')->nullable();
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('quote_lines');
+        Schema::dropIfExists('calculation_lines');
     }
 };

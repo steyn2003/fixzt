@@ -8,13 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('quotes', function (Blueprint $table) {
+        // Create calculations table (detailed breakdown with materials, labor, costs)
+        Schema::create('calculations', function (Blueprint $table) {
             $table->id();
-            $table->string('quote_number')->unique();
+            $table->string('calculation_number')->unique();
             $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('location_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('project_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('template_id')->constrained('quote_templates');
+            $table->foreignId('template_id')->constrained('calculation_templates');
             $table->string('customer_name');
             $table->string('customer_email')->nullable();
             $table->string('customer_phone')->nullable();
@@ -29,6 +30,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('quotes');
+        Schema::dropIfExists('calculations');
     }
 };

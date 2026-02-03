@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuoteTemplate;
+use App\Models\CalculationTemplate;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class QuoteTemplateController extends Controller
+class CalculationTemplateController extends Controller
 {
     public function index(Request $request)
     {
-        $templates = QuoteTemplate::query()
+        $templates = CalculationTemplate::query()
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%");
             })
@@ -18,7 +18,7 @@ class QuoteTemplateController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return Inertia::render('quote-templates/index', [
+        return Inertia::render('calculation-templates/index', [
             'templates' => $templates,
             'search' => $request->search,
         ]);
@@ -26,7 +26,7 @@ class QuoteTemplateController extends Controller
 
     public function create()
     {
-        return Inertia::render('quote-templates/create');
+        return Inertia::render('calculation-templates/create');
     }
 
     public function store(Request $request)
@@ -39,23 +39,23 @@ class QuoteTemplateController extends Controller
         ]);
 
         if ($validated['is_default'] ?? false) {
-            QuoteTemplate::where('is_default', true)->update(['is_default' => false]);
+            CalculationTemplate::where('is_default', true)->update(['is_default' => false]);
         }
 
-        QuoteTemplate::create($validated);
+        CalculationTemplate::create($validated);
 
-        return redirect()->route('quote-templates.index')
+        return redirect()->route('calculation-templates.index')
             ->with('success', 'Template aangemaakt.');
     }
 
-    public function edit(QuoteTemplate $quoteTemplate)
+    public function edit(CalculationTemplate $calculationTemplate)
     {
-        return Inertia::render('quote-templates/edit', [
-            'template' => $quoteTemplate,
+        return Inertia::render('calculation-templates/edit', [
+            'template' => $calculationTemplate,
         ]);
     }
 
-    public function update(Request $request, QuoteTemplate $quoteTemplate)
+    public function update(Request $request, CalculationTemplate $calculationTemplate)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -65,22 +65,22 @@ class QuoteTemplateController extends Controller
         ]);
 
         if ($validated['is_default'] ?? false) {
-            QuoteTemplate::where('is_default', true)
-                ->where('id', '!=', $quoteTemplate->id)
+            CalculationTemplate::where('is_default', true)
+                ->where('id', '!=', $calculationTemplate->id)
                 ->update(['is_default' => false]);
         }
 
-        $quoteTemplate->update($validated);
+        $calculationTemplate->update($validated);
 
-        return redirect()->route('quote-templates.index')
+        return redirect()->route('calculation-templates.index')
             ->with('success', 'Template bijgewerkt.');
     }
 
-    public function destroy(QuoteTemplate $quoteTemplate)
+    public function destroy(CalculationTemplate $calculationTemplate)
     {
-        $quoteTemplate->delete();
+        $calculationTemplate->delete();
 
-        return redirect()->route('quote-templates.index')
+        return redirect()->route('calculation-templates.index')
             ->with('success', 'Template verwijderd.');
     }
 }

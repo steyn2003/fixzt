@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class QuoteTemplate extends Model
+class CalculationTemplate extends Model
 {
     protected $fillable = [
         'name',
@@ -18,8 +18,8 @@ class QuoteTemplate extends Model
         'is_default' => 'boolean',
     ];
 
-    public function quotes(): HasMany
+    public function calculations(): HasMany
     {
-        return $this->hasMany(Quote::class, 'template_id');
+        return $this->hasMany(Calculation::class, 'template_id');
     }
 }

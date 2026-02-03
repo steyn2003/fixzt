@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CalculationController;
+use App\Http\Controllers\CalculationTemplateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactSubmissionController;
 use App\Http\Controllers\LocationController;
@@ -8,7 +10,6 @@ use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ProjectMaterialController;
 use App\Http\Controllers\ProjectNoteController;
 use App\Http\Controllers\QuoteController;
-use App\Http\Controllers\QuoteTemplateController;
 use App\Http\Controllers\TimeEntryController;
 use App\Http\Controllers\UserController;
 use App\Models\ContactSubmission;
@@ -87,15 +88,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Users
     Route::resource('dashboard/users', UserController::class)->names('users')->except(['show']);
 
-    // Quotes
-    Route::resource('dashboard/quotes', QuoteController::class)->names('quotes');
-    Route::post('dashboard/quotes/extract', [QuoteController::class, 'extract'])->name('quotes.extract');
-    Route::get('dashboard/quotes/extract/{extractionId}', [QuoteController::class, 'extractStatus'])->name('quotes.extract.status');
-    Route::get('dashboard/quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
-    Route::post('dashboard/quotes/{quote}/convert', [QuoteController::class, 'convert'])->name('quotes.convert');
+    // Calculations (detailed breakdown with lines)
+    Route::resource('dashboard/calculations', CalculationController::class)->names('calculations');
+    Route::post('dashboard/calculations/extract', [CalculationController::class, 'extract'])->name('calculations.extract');
+    Route::get('dashboard/calculations/extract/{extractionId}', [CalculationController::class, 'extractStatus'])->name('calculations.extract.status');
+    Route::get('dashboard/calculations/{calculation}/pdf', [CalculationController::class, 'pdf'])->name('calculations.pdf');
+    Route::post('dashboard/calculations/{calculation}/convert', [CalculationController::class, 'convert'])->name('calculations.convert');
 
-    // Quote Templates
-    Route::resource('dashboard/quote-templates', QuoteTemplateController::class)->names('quote-templates')->except(['show']);
+    // Calculation Templates
+    Route::resource('dashboard/calculation-templates', CalculationTemplateController::class)->names('calculation-templates')->except(['show']);
+
+    // Quotes (simple offer referencing a calculation)
+    Route::resource('dashboard/quotes', QuoteController::class)->names('quotes');
+    Route::get('dashboard/quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
 });
 
 require __DIR__.'/settings.php';

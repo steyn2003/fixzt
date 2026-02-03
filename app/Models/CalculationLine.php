@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class QuoteLine extends Model
+class CalculationLine extends Model
 {
     protected $fillable = [
-        'quote_id',
+        'calculation_id',
         'description',
         'quantity',
         'unit',
@@ -29,14 +29,14 @@ class QuoteLine extends Model
 
     protected static function booted(): void
     {
-        static::saving(function (QuoteLine $line) {
+        static::saving(function (CalculationLine $line) {
             $line->unit_price = $line->unit_cost * (1 + $line->markup_percentage / 100);
             $line->total = $line->quantity * $line->unit_price;
         });
     }
 
-    public function quote(): BelongsTo
+    public function calculation(): BelongsTo
     {
-        return $this->belongsTo(Quote::class);
+        return $this->belongsTo(Calculation::class);
     }
 }

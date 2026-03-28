@@ -12,7 +12,15 @@ import { MarketingLayout } from '@/layouts/marketing-layout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 
-export default function Welcome() {
+interface Props {
+    content: Record<string, Record<string, string>>;
+}
+
+function c(content: Props['content'], section: string, key: string, fallback: string): string {
+    return content?.[section]?.[key] || fallback;
+}
+
+export default function Welcome({ content = {} }: Props) {
     const features = [
         {
             title: 'Full-Service Onderhoud',
@@ -39,10 +47,10 @@ export default function Welcome() {
     ];
 
     const stats = [
-        { value: '24/7', label: 'Bereikbaar' },
-        { value: '100+', label: 'Beheerde Locaties' },
-        { value: '10+', label: 'Jaar Ervaring' },
-        { value: '98%', label: 'Klanttevredenheid' },
+        { value: c(content, 'stats', 'stat_1_value', '24/7'), label: c(content, 'stats', 'stat_1_label', 'Bereikbaar') },
+        { value: c(content, 'stats', 'stat_2_value', '100+'), label: c(content, 'stats', 'stat_2_label', 'Beheerde Locaties') },
+        { value: c(content, 'stats', 'stat_3_value', '10+'), label: c(content, 'stats', 'stat_3_label', 'Jaar Ervaring') },
+        { value: c(content, 'stats', 'stat_4_value', '98%'), label: c(content, 'stats', 'stat_4_label', 'Klanttevredenheid') },
     ];
 
     const targetAudience = [
@@ -202,25 +210,19 @@ export default function Welcome() {
                             <div className="space-y-8">
                                 <FadeIn>
                                     <div className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-                                        Full-Service Onderhoud Commercieel
-                                        Vastgoed
+                                        {c(content, 'hero', 'badge', 'Full-Service Onderhoud Commercieel Vastgoed')}
                                     </div>
                                 </FadeIn>
 
                                 <SlideIn direction="right">
                                     <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                                        Uw Gebouw Technisch in Topconditie
+                                        {c(content, 'hero', 'title', 'Uw Gebouw Technisch in Topconditie')}
                                     </h1>
                                 </SlideIn>
 
                                 <SlideIn direction="right" delay={0.2}>
                                     <p className="max-w-[600px] text-lg text-muted-foreground md:text-xl">
-                                        Fixzt ondersteunt vastgoedbeheerders,
-                                        eigenaren en beleggers bij alle kleine
-                                        reparaties, dagelijks onderhoud en
-                                        terugkerende klussen in kantoorgebouwen,
-                                        winkelcentra en andere commerciële
-                                        panden. Eén vaste, betrouwbare partij.
+                                        {c(content, 'hero', 'description', 'Fixzt ondersteunt vastgoedbeheerders, eigenaren en beleggers bij alle kleine reparaties, dagelijks onderhoud en terugkerende klussen in kantoorgebouwen, winkelcentra en andere commerciële panden. Eén vaste, betrouwbare partij.')}
                                     </p>
                                 </SlideIn>
 
@@ -267,7 +269,7 @@ export default function Welcome() {
                             <ScaleIn delay={0.3}>
                                 <div className="relative h-[400px] overflow-hidden rounded-2xl shadow-2xl md:h-[500px] lg:h-[600px]">
                                     <img
-                                        src="/homepage.webp"
+                                        src={c(content, 'hero', 'image', '/homepage.webp')}
                                         alt="Fixzt onderhoud commercieel vastgoed"
                                         className="h-full w-full object-cover"
                                     />
@@ -313,11 +315,10 @@ export default function Welcome() {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Wat Doen We Precies?
+                                    {c(content, 'services', 'title', 'Wat Doen We Precies?')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Onze diensten voor optimaal onderhoud van uw
-                                    commercieel vastgoed
+                                    {c(content, 'services', 'subtitle', 'Onze diensten voor optimaal onderhoud van uw commercieel vastgoed')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -602,13 +603,10 @@ export default function Welcome() {
                             <div className="flex flex-col items-center space-y-8 text-center">
                                 <div className="max-w-[800px] space-y-4">
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                                        Klaar Om Uw Vastgoed Te Ontzorgen?
+                                        {c(content, 'cta', 'title', 'Klaar Om Uw Vastgoed Te Ontzorgen?')}
                                     </h2>
                                     <p className="text-muted-foreground md:text-xl">
-                                        Neem vandaag nog contact met ons op en
-                                        ontdek hoe Fixzt uw gebouwen in
-                                        topconditie houdt, uw huurders tevreden
-                                        stelt en grotere problemen voorkomt.
+                                        {c(content, 'cta', 'description', 'Neem vandaag nog contact met ons op en ontdek hoe Fixzt uw gebouwen in topconditie houdt, uw huurders tevreden stelt en grotere problemen voorkomt.')}
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">

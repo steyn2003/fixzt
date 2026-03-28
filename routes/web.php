@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalculationController;
+use App\Http\Controllers\PageContentController;
 use App\Http\Controllers\CalculationTemplateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContactSubmissionController;
@@ -19,15 +20,21 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return Inertia::render('welcome', [
+        'content' => \App\Models\PageContent::getForPage('welcome'),
+    ]);
 })->name('home');
 
 Route::get('/about', function () {
-    return Inertia::render('about');
+    return Inertia::render('about', [
+        'content' => \App\Models\PageContent::getForPage('about'),
+    ]);
 })->name('about');
 
 Route::get('/services', function () {
-    return Inertia::render('services');
+    return Inertia::render('services', [
+        'content' => \App\Models\PageContent::getForPage('services'),
+    ]);
 })->name('services');
 
 // Public contact form submission
@@ -97,6 +104,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Calculation Templates
     Route::resource('dashboard/calculation-templates', CalculationTemplateController::class)->names('calculation-templates')->except(['show']);
+
+    // Page Content (CMS)
+    Route::get('dashboard/content', [PageContentController::class, 'index'])->name('content.index');
+    Route::put('dashboard/content', [PageContentController::class, 'update'])->name('content.update');
+    Route::post('dashboard/content/upload', [PageContentController::class, 'uploadImage'])->name('content.upload');
+    Route::post('dashboard/content/seed', [PageContentController::class, 'seed'])->name('content.seed');
 
     // Quotes (simple offer referencing a calculation)
     Route::resource('dashboard/quotes', QuoteController::class)->names('quotes');

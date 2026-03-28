@@ -12,7 +12,15 @@ import { MarketingLayout } from '@/layouts/marketing-layout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 
-export default function Services() {
+interface Props {
+    content: Record<string, Record<string, string>>;
+}
+
+function c(content: Props['content'], section: string, key: string, fallback: string): string {
+    return content?.[section]?.[key] || fallback;
+}
+
+export default function Services({ content = {} }: Props) {
     const services = [
         {
             title: 'Kleine Reparaties & Dagelijks Onderhoud',
@@ -111,20 +119,13 @@ export default function Services() {
 
                             <SlideIn direction="down">
                                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                                    Onze{' '}
-                                    <span className="text-primary">
-                                        Diensten
-                                    </span>
+                                    {c(content, 'hero', 'title', 'Onze Diensten')}
                                 </h1>
                             </SlideIn>
 
                             <FadeIn delay={0.2}>
                                 <p className="mx-auto max-w-[800px] text-lg text-muted-foreground md:text-xl">
-                                    Professioneel gebouwbeheer en technisch
-                                    onderhoud voor kantoren en light industrial
-                                    panden. Van preventief onderhoud tot snelle
-                                    reparaties, wij zorgen dat uw vastgoed
-                                    optimaal functioneert.
+                                    {c(content, 'hero', 'description', 'Professioneel gebouwbeheer en technisch onderhoud voor kantoren en light industrial panden. Van preventief onderhoud tot snelle reparaties, wij zorgen dat uw vastgoed optimaal functioneert.')}
                                 </p>
                             </FadeIn>
                         </div>
@@ -386,12 +387,10 @@ export default function Services() {
                             <div className="flex flex-col items-center space-y-6 text-center">
                                 <div className="max-w-[700px] space-y-4">
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                        Klaar om te Beginnen?
+                                        {c(content, 'cta', 'title', 'Klaar om te Beginnen?')}
                                     </h2>
                                     <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                        Neem vandaag nog contact met ons op om
-                                        te bespreken hoe wij u kunnen helpen met
-                                        professioneel gebouwbeheer
+                                        {c(content, 'cta', 'description', 'Neem vandaag nog contact met ons op om te bespreken hoe wij u kunnen helpen met professioneel gebouwbeheer')}
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">

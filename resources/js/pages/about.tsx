@@ -17,7 +17,15 @@ import { MarketingLayout } from '@/layouts/marketing-layout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 
-export default function About() {
+interface Props {
+    content: Record<string, Record<string, string>>;
+}
+
+function c(content: Props['content'], section: string, key: string, fallback: string): string {
+    return content?.[section]?.[key] || fallback;
+}
+
+export default function About({ content = {} }: Props) {
     const values = [
         {
             title: 'Betrouwbaar',
@@ -77,10 +85,10 @@ export default function About() {
     ];
 
     const achievements = [
-        { number: '500+', label: 'Panden Beheerd', icon: '🏢' },
-        { number: '1000+', label: 'Tevreden Huurders', icon: '😊' },
-        { number: '15+', label: 'Jaar Ervaring', icon: '📅' },
-        { number: '24/7', label: 'Beschikbaarheid', icon: '⏰' },
+        { number: c(content, 'stats', 'stat_1_value', '500+'), label: c(content, 'stats', 'stat_1_label', 'Panden Beheerd'), icon: '🏢' },
+        { number: c(content, 'stats', 'stat_2_value', '1000+'), label: c(content, 'stats', 'stat_2_label', 'Tevreden Huurders'), icon: '😊' },
+        { number: c(content, 'stats', 'stat_3_value', '15+'), label: c(content, 'stats', 'stat_3_label', 'Jaar Ervaring'), icon: '📅' },
+        { number: c(content, 'stats', 'stat_4_value', '24/7'), label: c(content, 'stats', 'stat_4_label', 'Beschikbaarheid'), icon: '⏰' },
     ];
 
     const timeline = [
@@ -150,17 +158,13 @@ export default function About() {
 
                             <SlideIn direction="down">
                                 <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                                    Maak kennis met{' '}
-                                    <span className="text-primary">Fixzt</span>
+                                    {c(content, 'hero', 'title', 'Maak kennis met Fixzt')}
                                 </h1>
                             </SlideIn>
 
                             <FadeIn delay={0.2}>
                                 <p className="mx-auto max-w-[800px] text-lg text-muted-foreground md:text-xl">
-                                    Full-service dienstverlener voor commercieel
-                                    vastgoed onderhoud. Uw betrouwbare partner
-                                    voor dagelijks onderhoud, preventieve
-                                    service en spoedinterventies.
+                                    {c(content, 'hero', 'description', 'Full-service dienstverlener voor commercieel vastgoed onderhoud. Uw betrouwbare partner voor dagelijks onderhoud, preventieve service en spoedinterventies.')}
                                 </p>
                             </FadeIn>
                         </div>
@@ -177,28 +181,14 @@ export default function About() {
                                         Onze Missie
                                     </div>
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                        Gebouwen in Topconditie Houden
+                                        {c(content, 'mission', 'title', 'Gebouwen in Topconditie Houden')}
                                     </h2>
                                     <div className="space-y-4">
                                         <p className="text-muted-foreground md:text-lg">
-                                            Bij Fixzt zijn wij toegewijd aan het
-                                            in optimale technische staat houden
-                                            van uw commerciële vastgoed. Wij
-                                            begrijpen dat goed onderhoud
-                                            essentieel is voor de waarde van uw
-                                            pand en het comfort van uw huurders.
+                                            {c(content, 'mission', 'paragraph_1', 'Bij Fixzt zijn wij toegewijd aan het in optimale technische staat houden van uw commerciële vastgoed. Wij begrijpen dat goed onderhoud essentieel is voor de waarde van uw pand en het comfort van uw huurders.')}
                                         </p>
                                         <p className="text-muted-foreground md:text-lg">
-                                            Als vaste aanwezigheid in gebouwen
-                                            zijn wij het eerste aanspreekpunt
-                                            voor huurders en zorgen we voor
-                                            directe oplossingen. Onze
-                                            preventieve aanpak voorkomt grote
-                                            problemen en zorgt ervoor dat
-                                            vastgoedbeheerders, eigenaren en
-                                            investeerders volledig ontzorgd
-                                            worden met één betrouwbare, vaste
-                                            partner.
+                                            {c(content, 'mission', 'paragraph_2', 'Als vaste aanwezigheid in gebouwen zijn wij het eerste aanspreekpunt voor huurders en zorgen we voor directe oplossingen. Onze preventieve aanpak voorkomt grote problemen en zorgt ervoor dat vastgoedbeheerders, eigenaren en investeerders volledig ontzorgd worden met één betrouwbare, vaste partner.')}
                                         </p>
                                     </div>
                                     <Button size="lg">
@@ -211,7 +201,7 @@ export default function About() {
                                 <FloatingElement>
                                     <div className="relative h-[400px] overflow-hidden rounded-2xl shadow-2xl md:h-[500px]">
                                         <img
-                                            src="/about.jpg"
+                                            src={c(content, 'mission', 'image', '/about.jpg')}
                                             alt="Fixzt Facility Management"
                                             className="h-full w-full object-cover"
                                         />
@@ -450,12 +440,10 @@ export default function About() {
                             <div className="flex flex-col items-center space-y-6 text-center">
                                 <div className="max-w-[700px] space-y-4">
                                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                        Klaar Voor Professioneel Gebouwbeheer?
+                                        {c(content, 'cta', 'title', 'Klaar Voor Professioneel Gebouwbeheer?')}
                                     </h2>
                                     <p className="text-lg text-primary-foreground/90 md:text-xl">
-                                        Laten we bespreken hoe wij uw vastgoed
-                                        optimaal kunnen onderhouden en uw
-                                        huurders kunnen ontzorgen
+                                        {c(content, 'cta', 'description', 'Laten we bespreken hoe wij uw vastgoed optimaal kunnen onderhouden en uw huurders kunnen ontzorgen')}
                                     </p>
                                 </div>
                                 <div className="flex flex-col gap-4 sm:flex-row">

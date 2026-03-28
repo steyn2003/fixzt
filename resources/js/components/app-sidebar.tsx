@@ -13,6 +13,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     Calculator,
+    FileEdit,
     FileText,
     FolderKanban,
     LayoutGrid,
@@ -64,6 +65,11 @@ const mainNavItems: NavItem[] = [
         title: 'Contactberichten',
         href: '/dashboard/contacts',
         icon: Mail,
+    },
+    {
+        title: 'Website Content',
+        href: '/dashboard/content',
+        icon: FileEdit,
     },
     {
         title: 'Gebruikers',

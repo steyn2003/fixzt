@@ -28,58 +28,50 @@ function c(content: Props['content'], section: string, key: string, fallback: st
 export default function About({ content = {} }: Props) {
     const values = [
         {
-            title: 'Betrouwbaar',
+            title: c(content, 'values', 'value_1_title', 'Betrouwbaar'),
             icon: '🤝',
-            description:
-                'Wij zijn de vaste partner waarop u kunt rekenen. Consistente kwaliteit en betrouwbare service bij elk onderhoud.',
+            description: c(content, 'values', 'value_1_description', 'Wij zijn de vaste partner waarop u kunt rekenen. Consistente kwaliteit en betrouwbare service bij elk onderhoud.'),
         },
         {
-            title: 'Snel & Flexibel',
+            title: c(content, 'values', 'value_2_title', 'Snel & Flexibel'),
             icon: '⚡',
-            description:
-                'Direct beschikbaar wanneer u ons nodig heeft. Snelle respons en flexibele planning voor al uw onderhoudswensen.',
+            description: c(content, 'values', 'value_2_description', 'Direct beschikbaar wanneer u ons nodig heeft. Snelle respons en flexibele planning voor al uw onderhoudswensen.'),
         },
         {
-            title: 'Preventief Denken',
+            title: c(content, 'values', 'value_3_title', 'Preventief Denken'),
             icon: '🔍',
-            description:
-                'Wij signaleren problemen voordat ze groot worden. Preventief onderhoud voorkomt dure reparaties en verstoringen.',
+            description: c(content, 'values', 'value_3_description', 'Wij signaleren problemen voordat ze groot worden. Preventief onderhoud voorkomt dure reparaties en verstoringen.'),
         },
         {
-            title: 'Altijd Bereikbaar',
+            title: c(content, 'values', 'value_4_title', 'Altijd Bereikbaar'),
             icon: '📞',
-            description:
-                '24/7 beschikbaar voor spoedgevallen. Uw eerste aanspreekpunt op locatie voor alle technische zaken.',
+            description: c(content, 'values', 'value_4_description', '24/7 beschikbaar voor spoedgevallen. Uw eerste aanspreekpunt op locatie voor alle technische zaken.'),
         },
     ];
 
     const services = [
         {
-            role: 'Dagelijks Onderhoud',
+            role: c(content, 'why_fixzt', 'item_1_title', 'Dagelijks Onderhoud'),
             icon: '🔧',
-            description:
-                'Klein reparatiewerk en dagelijks technisch onderhoud van uw gebouwen',
+            description: c(content, 'why_fixzt', 'item_1_description', 'Klein reparatiewerk en dagelijks technisch onderhoud van uw gebouwen'),
             image: '/team-experts.jpg',
         },
         {
-            role: 'Preventief Onderhoud',
+            role: c(content, 'why_fixzt', 'item_2_title', 'Preventief Onderhoud'),
             icon: '🛡️',
-            description:
-                'Regelmatige inspecties en preventieve maatregelen om problemen voor te zijn',
+            description: c(content, 'why_fixzt', 'item_2_description', 'Regelmatige inspecties en preventieve maatregelen om problemen voor te zijn'),
             image: '/team-legal.jpg',
         },
         {
-            role: 'Spoedservice',
+            role: c(content, 'why_fixzt', 'item_3_title', 'Spoedservice'),
             icon: '🚨',
-            description:
-                '24/7 beschikbaar voor spoedgevallen en technische calamiteiten',
+            description: c(content, 'why_fixzt', 'item_3_description', '24/7 beschikbaar voor spoedgevallen en technische calamiteiten'),
             image: '/team-managers.jpg',
         },
         {
-            role: 'Kleine Projecten',
+            role: c(content, 'why_fixzt', 'item_4_title', 'Kleine Projecten'),
             icon: '🏗️',
-            description:
-                'Vervangingswerk en kleine projecten binnen uw vastgoed',
+            description: c(content, 'why_fixzt', 'item_4_description', 'Vervangingswerk en kleine projecten binnen uw vastgoed'),
             image: '/team-financial.jpg',
         },
     ];
@@ -255,11 +247,10 @@ export default function About({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Onze Kernwaarden
+                                    {c(content, 'values', 'title', 'Onze Kernwaarden')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    De principes die onze service en aanpak
-                                    bepalen
+                                    {c(content, 'values', 'subtitle', 'De principes die onze service en aanpak bepalen')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -308,11 +299,10 @@ export default function About({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Waarom Fixzt?
+                                    {c(content, 'why_fixzt', 'title', 'Waarom Fixzt?')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Uw betrouwbare partner voor technisch
-                                    gebouwbeheer
+                                    {c(content, 'why_fixzt', 'subtitle', 'Uw betrouwbare partner voor technisch gebouwbeheer')}
                                 </p>
                             </div>
                         </FadeIn>

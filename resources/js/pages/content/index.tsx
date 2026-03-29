@@ -49,28 +49,59 @@ const pageLabels: Record<string, string> = {
 const sectionLabels: Record<string, string> = {
     hero: 'Hero Sectie',
     stats: 'Statistieken',
-    services: 'Diensten',
+    services: 'Diensten Kop',
+    service_cards: 'Dienst Kaarten',
+    building_types: 'Type Gebouwen',
+    why_fixzt: 'Waarom Fixzt',
+    newsletter: 'Nieuwsbrief',
     cta: 'Call to Action',
     mission: 'Missie',
+    values: 'Kernwaarden',
+    benefits: 'Voordelen',
+    process: 'Ons Proces',
 };
 
-const keyLabels: Record<string, string> = {
-    badge: 'Badge Tekst',
-    title: 'Titel',
-    subtitle: 'Ondertitel',
-    description: 'Beschrijving',
-    image: 'Afbeelding',
-    paragraph_1: 'Paragraaf 1',
-    paragraph_2: 'Paragraaf 2',
-    stat_1_value: 'Stat 1 - Waarde',
-    stat_1_label: 'Stat 1 - Label',
-    stat_2_value: 'Stat 2 - Waarde',
-    stat_2_label: 'Stat 2 - Label',
-    stat_3_value: 'Stat 3 - Waarde',
-    stat_3_label: 'Stat 3 - Label',
-    stat_4_value: 'Stat 4 - Waarde',
-    stat_4_label: 'Stat 4 - Label',
-};
+function getKeyLabel(key: string): string {
+    const labels: Record<string, string> = {
+        badge: 'Badge Tekst',
+        title: 'Titel',
+        subtitle: 'Ondertitel',
+        description: 'Beschrijving',
+        image: 'Afbeelding',
+        paragraph_1: 'Paragraaf 1',
+        paragraph_2: 'Paragraaf 2',
+    };
+    if (labels[key]) return labels[key];
+
+    // Auto-generate labels for numbered items like card_1_title, building_2_description, etc.
+    const match = key.match(/^(\w+?)_(\d+)_(\w+)$/);
+    if (match) {
+        const prefixLabels: Record<string, string> = {
+            stat: 'Stat',
+            card: 'Kaart',
+            building: 'Gebouw',
+            item: 'Item',
+            value: 'Waarde',
+            benefit: 'Voordeel',
+            step: 'Stap',
+        };
+        const fieldLabels: Record<string, string> = {
+            value: 'Waarde',
+            label: 'Label',
+            title: 'Titel',
+            description: 'Beschrijving',
+            content: 'Inhoud',
+            image: 'Afbeelding',
+            features: 'Kenmerken',
+        };
+        const prefix = prefixLabels[match[1]] || match[1];
+        const num = match[2];
+        const field = fieldLabels[match[3]] || match[3];
+        return `${prefix} ${num} - ${field}`;
+    }
+
+    return key;
+}
 
 export default function ContentIndex({ contents }: Props) {
     const pages = Object.keys(contents);
@@ -234,9 +265,7 @@ export default function ContentIndex({ contents }: Props) {
                                                     className="space-y-2"
                                                 >
                                                     <Label>
-                                                        {keyLabels[
-                                                            item.key
-                                                        ] || item.key}
+                                                        {getKeyLabel(item.key)}
                                                     </Label>
                                                     {item.type ===
                                                         'textarea' ? (

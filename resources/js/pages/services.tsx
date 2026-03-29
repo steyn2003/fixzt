@@ -21,71 +21,23 @@ function c(content: Props['content'], section: string, key: string, fallback: st
 }
 
 export default function Services({ content = {} }: Props) {
-    const services = [
-        {
-            title: 'Kleine Reparaties & Dagelijks Onderhoud',
-            description:
-                'Snelle en betrouwbare oplossingen voor dagelijkse onderhoudsvraagstukken',
-            icon: '🔧',
-            image: '/service-repairs.jpg',
-            features: [
-                'Oplossen van lekkages',
-                'Herstellen van hang- en sluitwerk (deuren, ramen, sloten, scharnieren)',
-                'Herstellen van plafonds, wanden en deuren',
-                'Klein bouwkundig herstel en afwerking',
-            ],
-        },
-        {
-            title: 'Preventief Onderhoud, Controles en Inspecties',
-            description:
-                'Proactieve bewaking en onderhoud om problemen voor te zijn',
-            icon: '🔍',
-            image: '/service-inspections.jpg',
-            features: [
-                'Periodieke controles aan klimaatinstallaties en technische ruimten',
-                'Visuele inspecties van bouwkundige en installatietechnische onderdelen',
-                "Signaleren van slijtage, risico's en toekomstige onderhoudsbehoefte",
-                'Rapportage en terugkoppeling richting beheerder of eigenaar',
-            ],
-        },
-        {
-            title: 'Snelle Respons & Noodgevallen',
-            description: 'Direct ter plaatse bij storingen en calamiteiten',
-            icon: '🚨',
-            image: '/service-emergency.jpg',
-            features: [
-                'Snel ter plaatse bij storingen of calamiteiten',
-                'Tijdelijke noodoplossing of directe reparatie waar mogelijk',
-                'Communicatie met huurders en betrokken partijen op locatie',
-                '24/7 bereikbaarheid voor spoedgevallen',
-            ],
-        },
-        {
-            title: 'Eerste Aanspreekpunt op Locatie',
-            description:
-                'Uw vaste contactpersoon voor alle facilitymanagement vraagstukken',
-            icon: '👥',
-            image: '/service-coordination.jpg',
-            features: [
-                'Begeleiding van installateurs en aannemers',
-                'Direct contact met huurders en gebruikers',
-                'Afstemming met beheerder of assetmanager',
-                'Coördinatie van kleine werkzaamheden',
-            ],
-        },
-        {
-            title: 'Kleine Projecten & Vervangingswerk',
-            description: 'Uitvoering van kleinschalige projecten en upgrades',
-            icon: '🏗️',
-            image: '/service-projects.jpg',
-            features: [
-                'Brandmeldinstallaties (vervanging, aanpassingen)',
-                'Vervangen van verlichting door LED-oplossingen',
-                'Kleinschalige bouwkundige aanpassingen',
-                'Deelprojecten in kantoren en light industrial panden',
-            ],
-        },
+    const defaultFeatures = [
+        ['Oplossen van lekkages', 'Herstellen van hang- en sluitwerk (deuren, ramen, sloten, scharnieren)', 'Herstellen van plafonds, wanden en deuren', 'Klein bouwkundig herstel en afwerking'],
+        ['Periodieke controles aan klimaatinstallaties en technische ruimten', 'Visuele inspecties van bouwkundige en installatietechnische onderdelen', "Signaleren van slijtage, risico's en toekomstige onderhoudsbehoefte", 'Rapportage en terugkoppeling richting beheerder of eigenaar'],
+        ['Snel ter plaatse bij storingen of calamiteiten', 'Tijdelijke noodoplossing of directe reparatie waar mogelijk', 'Communicatie met huurders en betrokken partijen op locatie', '24/7 bereikbaarheid voor spoedgevallen'],
+        ['Begeleiding van installateurs en aannemers', 'Direct contact met huurders en gebruikers', 'Afstemming met beheerder of assetmanager', 'Coördinatie van kleine werkzaamheden'],
+        ['Brandmeldinstallaties (vervanging, aanpassingen)', 'Vervangen van verlichting door LED-oplossingen', 'Kleinschalige bouwkundige aanpassingen', 'Deelprojecten in kantoren en light industrial panden'],
     ];
+    const icons = ['🔧', '🔍', '🚨', '👥', '🏗️'];
+
+    const services = [1, 2, 3, 4, 5].map((i) => ({
+        title: c(content, 'service_cards', `card_${i}_title`, ['Kleine Reparaties & Dagelijks Onderhoud', 'Preventief Onderhoud, Controles en Inspecties', 'Snelle Respons & Noodgevallen', 'Eerste Aanspreekpunt op Locatie', 'Kleine Projecten & Vervangingswerk'][i - 1]),
+        description: c(content, 'service_cards', `card_${i}_description`, ['Snelle en betrouwbare oplossingen voor dagelijkse onderhoudsvraagstukken', 'Proactieve bewaking en onderhoud om problemen voor te zijn', 'Direct ter plaatse bij storingen en calamiteiten', 'Uw vaste contactpersoon voor alle facilitymanagement vraagstukken', 'Uitvoering van kleinschalige projecten en upgrades'][i - 1]),
+        icon: icons[i - 1],
+        features: c(content, 'service_cards', `card_${i}_features`, '').split('\n').filter(Boolean).length > 0
+            ? c(content, 'service_cards', `card_${i}_features`, '').split('\n').filter(Boolean)
+            : defaultFeatures[i - 1],
+    }));
 
     return (
         <MarketingLayout>
@@ -234,11 +186,10 @@ export default function Services({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Waarom Met Ons Werken?
+                                    {c(content, 'benefits', 'title', 'Waarom Met Ons Werken?')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Ervaar het verschil van professioneel
-                                    gebouwbeheer met een persoonlijke aanpak
+                                    {c(content, 'benefits', 'subtitle', 'Ervaar het verschil van professioneel gebouwbeheer met een persoonlijke aanpak')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -247,23 +198,23 @@ export default function Services({ content = {} }: Props) {
                             {[
                                 {
                                     icon: '🏢',
-                                    title: 'Vaste Aanwezigheid in Gebouw',
-                                    desc: 'Direct beschikbaar en ter plaatse voor al uw vragen',
+                                    title: c(content, 'benefits', 'benefit_1_title', 'Vaste Aanwezigheid in Gebouw'),
+                                    desc: c(content, 'benefits', 'benefit_1_description', 'Direct beschikbaar en ter plaatse voor al uw vragen'),
                                 },
                                 {
                                     icon: '⚡',
-                                    title: 'Snelle Reactietijd',
-                                    desc: 'Snel ingrijpen bij storingen en calamiteiten',
+                                    title: c(content, 'benefits', 'benefit_2_title', 'Snelle Reactietijd'),
+                                    desc: c(content, 'benefits', 'benefit_2_description', 'Snel ingrijpen bij storingen en calamiteiten'),
                                 },
                                 {
                                     icon: '🔍',
-                                    title: 'Preventieve Aanpak',
-                                    desc: 'Problemen voorkomen door regelmatige controles',
+                                    title: c(content, 'benefits', 'benefit_3_title', 'Preventieve Aanpak'),
+                                    desc: c(content, 'benefits', 'benefit_3_description', 'Problemen voorkomen door regelmatige controles'),
                                 },
                                 {
                                     icon: '👤',
-                                    title: 'Eén Vast Aanspreekpunt',
-                                    desc: 'Eén contactpersoon voor alle facilitymanagement vraagstukken',
+                                    title: c(content, 'benefits', 'benefit_4_title', 'Eén Vast Aanspreekpunt'),
+                                    desc: c(content, 'benefits', 'benefit_4_description', 'Eén contactpersoon voor alle facilitymanagement vraagstukken'),
                                 },
                             ].map((benefit, index) => (
                                 <SlideIn
@@ -309,11 +260,10 @@ export default function Services({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Ons Proces
+                                    {c(content, 'process', 'title', 'Ons Proces')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Een gestroomlijnde aanpak voor optimaal
-                                    gebouwbeheer
+                                    {c(content, 'process', 'subtitle', 'Een gestroomlijnde aanpak voor optimaal gebouwbeheer')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -322,23 +272,23 @@ export default function Services({ content = {} }: Props) {
                             {[
                                 {
                                     step: '1',
-                                    title: 'Kennismaking & Intake',
-                                    desc: 'We maken kennis met uw gebouw en bespreken uw specifieke wensen en behoeften',
+                                    title: c(content, 'process', 'step_1_title', 'Kennismaking & Intake'),
+                                    desc: c(content, 'process', 'step_1_description', 'We maken kennis met uw gebouw en bespreken uw specifieke wensen en behoeften'),
                                 },
                                 {
                                     step: '2',
-                                    title: 'Plan van Aanpak',
-                                    desc: 'Ontwikkelen van een onderhoudsplan op maat voor uw pand',
+                                    title: c(content, 'process', 'step_2_title', 'Plan van Aanpak'),
+                                    desc: c(content, 'process', 'step_2_description', 'Ontwikkelen van een onderhoudsplan op maat voor uw pand'),
                                 },
                                 {
                                     step: '3',
-                                    title: 'Uitvoering & Monitoring',
-                                    desc: 'Actieve uitvoering van onderhoud met continue bewaking en rapportage',
+                                    title: c(content, 'process', 'step_3_title', 'Uitvoering & Monitoring'),
+                                    desc: c(content, 'process', 'step_3_description', 'Actieve uitvoering van onderhoud met continue bewaking en rapportage'),
                                 },
                                 {
                                     step: '4',
-                                    title: 'Continue Optimalisatie',
-                                    desc: 'Regelmatige evaluatie en bijsturing voor optimale prestaties',
+                                    title: c(content, 'process', 'step_4_title', 'Continue Optimalisatie'),
+                                    desc: c(content, 'process', 'step_4_description', 'Regelmatige evaluatie en bijsturing voor optimale prestaties'),
                                 },
                             ].map((item, index) => (
                                 <SlideIn

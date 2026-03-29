@@ -73,67 +73,62 @@ export default function Welcome({ content = {} }: Props) {
 
     const buildingTypes = [
         {
-            title: 'Winkelpanden & Winkelcentra',
-            description: 'Onderhoud voor retail vastgoed',
-            image: '/building-retail.webp',
+            title: c(content, 'building_types', 'building_1_title', 'Winkelpanden & Winkelcentra'),
+            description: c(content, 'building_types', 'building_1_description', 'Onderhoud voor retail vastgoed'),
+            image: c(content, 'building_types', 'building_1_image', '/building-retail.webp'),
         },
         {
-            title: 'Kantoorgebouwen',
-            description: 'Facility management voor kantoren',
-            image: '/building-office.webp',
+            title: c(content, 'building_types', 'building_2_title', 'Kantoorgebouwen'),
+            description: c(content, 'building_types', 'building_2_description', 'Facility management voor kantoren'),
+            image: c(content, 'building_types', 'building_2_image', '/building-office.webp'),
         },
         {
-            title: 'Light Industrial & Bedrijfsruimtes',
-            description: 'Technisch onderhoud bedrijfspanden',
-            image: '/building-industrial.webp',
+            title: c(content, 'building_types', 'building_3_title', 'Light Industrial & Bedrijfsruimtes'),
+            description: c(content, 'building_types', 'building_3_description', 'Technisch onderhoud bedrijfspanden'),
+            image: c(content, 'building_types', 'building_3_image', '/building-industrial.webp'),
         },
         {
-            title: 'Zorglocaties',
-            description: 'Betrouwbaar onderhoud zorginstellingen',
-            image: '/building-care.webp',
+            title: c(content, 'building_types', 'building_4_title', 'Zorglocaties'),
+            description: c(content, 'building_types', 'building_4_description', 'Betrouwbaar onderhoud zorginstellingen'),
+            image: c(content, 'building_types', 'building_4_image', '/building-care.webp'),
         },
         {
-            title: 'Hotels',
-            description: 'Continue inzetbaarheid horecavastgoed',
-            image: '/building-hotel.webp',
+            title: c(content, 'building_types', 'building_5_title', 'Hotels'),
+            description: c(content, 'building_types', 'building_5_description', 'Continue inzetbaarheid horecavastgoed'),
+            image: c(content, 'building_types', 'building_5_image', '/building-hotel.webp'),
         },
         {
-            title: 'Wooncomplexen',
-            description: 'Complexmatig beheer woongebouwen',
-            image: '/building-residential.webp',
+            title: c(content, 'building_types', 'building_6_title', 'Wooncomplexen'),
+            description: c(content, 'building_types', 'building_6_description', 'Complexmatig beheer woongebouwen'),
+            image: c(content, 'building_types', 'building_6_image', '/building-residential.webp'),
         },
     ];
 
     const services = [
         {
             step: '01',
-            title: 'Kleine Reparaties & Dagelijks Onderhoud',
-            description:
-                'Van lekkende kranen tot kapotte deurknoppen - alle kleine klussen die dagelijks voorkomen in commercieel vastgoed.',
+            title: c(content, 'service_cards', 'card_1_title', 'Kleine Reparaties & Dagelijks Onderhoud'),
+            description: c(content, 'service_cards', 'card_1_description', 'Van lekkende kranen tot kapotte deurknoppen - alle kleine klussen die dagelijks voorkomen in commercieel vastgoed.'),
         },
         {
             step: '02',
-            title: 'Preventief Onderhoud & Inspecties',
-            description:
-                'Regelmatige controles en preventief onderhoud om grotere problemen en kostbare storingen te voorkomen.',
+            title: c(content, 'service_cards', 'card_2_title', 'Preventief Onderhoud & Inspecties'),
+            description: c(content, 'service_cards', 'card_2_description', 'Regelmatige controles en preventief onderhoud om grotere problemen en kostbare storingen te voorkomen.'),
         },
         {
             step: '03',
-            title: 'Snelle Respons & Noodgevallen',
-            description:
-                '24/7 bereikbaar voor acute storingen. Wij schakelen snel om downtime te minimaliseren en uw huurders tevreden te houden.',
+            title: c(content, 'service_cards', 'card_3_title', 'Snelle Respons & Noodgevallen'),
+            description: c(content, 'service_cards', 'card_3_description', '24/7 bereikbaar voor acute storingen. Wij schakelen snel om downtime te minimaliseren en uw huurders tevreden te houden.'),
         },
         {
             step: '04',
-            title: 'Eerste Aanspreekpunt op Locatie',
-            description:
-                'Uw ogen en oren ter plaatse. Wij signaleren problemen tijdig en denken proactief mee in onderhoudsbeheer.',
+            title: c(content, 'service_cards', 'card_4_title', 'Eerste Aanspreekpunt op Locatie'),
+            description: c(content, 'service_cards', 'card_4_description', 'Uw ogen en oren ter plaatse. Wij signaleren problemen tijdig en denken proactief mee in onderhoudsbeheer.'),
         },
         {
             step: '05',
-            title: 'Kleine Projecten & Vervangingswerk',
-            description:
-                'Ook voor kleinschalige renovaties en vervangingen kunt u bij ons terecht - zonder de overhead van grote aannemers.',
+            title: c(content, 'service_cards', 'card_5_title', 'Kleine Projecten & Vervangingswerk'),
+            description: c(content, 'service_cards', 'card_5_description', 'Ook voor kleinschalige renovaties en vervangingen kunt u bij ons terecht - zonder de overhead van grote aannemers.'),
         },
     ];
 
@@ -163,39 +158,34 @@ export default function Welcome({ content = {} }: Props) {
 
     const whyFixzt = [
         {
-            title: 'Full-Service',
-            description: 'Eén partij voor alle onderhoudswerkzaamheden',
+            title: c(content, 'why_fixzt', 'item_1_title', 'Full-Service'),
+            description: c(content, 'why_fixzt', 'item_1_description', 'Eén partij voor alle onderhoudswerkzaamheden'),
             icon: '✓',
-            content:
-                'Geen gedoe met verschillende leveranciers. Wij regelen alles - van elektra tot sanitair, van schilderwerk tot kleine verbouwingen.',
+            content: c(content, 'why_fixzt', 'item_1_content', 'Geen gedoe met verschillende leveranciers. Wij regelen alles - van elektra tot sanitair, van schilderwerk tot kleine verbouwingen.'),
         },
         {
-            title: 'Commercieel Vastgoed als Specialisatie',
-            description: 'Wij begrijpen uw vastgoed',
+            title: c(content, 'why_fixzt', 'item_2_title', 'Commercieel Vastgoed als Specialisatie'),
+            description: c(content, 'why_fixzt', 'item_2_description', 'Wij begrijpen uw vastgoed'),
             icon: '✓',
-            content:
-                'Jarenlange ervaring met kantoren, winkelcentra en bedrijfspanden. Wij kennen de eisen en werken discreet tijdens openingstijden.',
+            content: c(content, 'why_fixzt', 'item_2_content', 'Jarenlange ervaring met kantoren, winkelcentra en bedrijfspanden. Wij kennen de eisen en werken discreet tijdens openingstijden.'),
         },
         {
-            title: 'Snelle Respons',
-            description: 'Direct schakelen wanneer nodig',
+            title: c(content, 'why_fixzt', 'item_3_title', 'Snelle Respons'),
+            description: c(content, 'why_fixzt', 'item_3_description', 'Direct schakelen wanneer nodig'),
             icon: '✓',
-            content:
-                'Storing? Lekkage? Wij zijn er snel. Minimale downtime betekent tevreden huurders en behoud van waarde.',
+            content: c(content, 'why_fixzt', 'item_3_content', 'Storing? Lekkage? Wij zijn er snel. Minimale downtime betekent tevreden huurders en behoud van waarde.'),
         },
         {
-            title: 'Preventief én Correctief',
-            description: 'Problemen voorkomen én oplossen',
+            title: c(content, 'why_fixzt', 'item_4_title', 'Preventief én Correctief'),
+            description: c(content, 'why_fixzt', 'item_4_description', 'Problemen voorkomen én oplossen'),
             icon: '✓',
-            content:
-                'Regelmatige inspecties en preventief onderhoud voorkomen grotere problemen. En als er toch iets misgaat, lossen wij het snel op.',
+            content: c(content, 'why_fixzt', 'item_4_content', 'Regelmatige inspecties en preventief onderhoud voorkomen grotere problemen. En als er toch iets misgaat, lossen wij het snel op.'),
         },
         {
-            title: 'Ogen en Oren op Locatie',
-            description: 'Proactief meedenken',
+            title: c(content, 'why_fixzt', 'item_5_title', 'Ogen en Oren op Locatie'),
+            description: c(content, 'why_fixzt', 'item_5_description', 'Proactief meedenken'),
             icon: '✓',
-            content:
-                'Tijdens onderhoudswerkzaamheden signaleren wij mogelijke toekomstige problemen en adviseren wij proactief over verbeteringen.',
+            content: c(content, 'why_fixzt', 'item_5_content', 'Tijdens onderhoudswerkzaamheden signaleren wij mogelijke toekomstige problemen en adviseren wij proactief over verbeteringen.'),
         },
     ];
 
@@ -406,11 +396,10 @@ export default function Welcome({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Type Gebouwen
+                                    {c(content, 'building_types', 'title', 'Type Gebouwen')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Wij verzorgen onderhoud voor diverse
-                                    commerciële vastgoedtypen
+                                    {c(content, 'building_types', 'subtitle', 'Wij verzorgen onderhoud voor diverse commerciële vastgoedtypen')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -459,11 +448,10 @@ export default function Welcome({ content = {} }: Props) {
                         <FadeIn>
                             <div className="mb-16 text-center">
                                 <h2 className="mb-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                                    Waarom Kiezen voor Fixzt?
+                                    {c(content, 'why_fixzt', 'title', 'Waarom Kiezen voor Fixzt?')}
                                 </h2>
                                 <p className="mx-auto max-w-[800px] text-muted-foreground md:text-xl">
-                                    Uw betrouwbare partner in commercieel
-                                    vastgoedonderhoud
+                                    {c(content, 'why_fixzt', 'subtitle', 'Uw betrouwbare partner in commercieel vastgoedonderhoud')}
                                 </p>
                             </div>
                         </FadeIn>
@@ -567,13 +555,10 @@ export default function Welcome({ content = {} }: Props) {
                                     <div className="grid items-center gap-8 lg:grid-cols-2">
                                         <div>
                                             <h3 className="mb-4 text-3xl font-bold">
-                                                Blijf Op De Hoogte
+                                                {c(content, 'newsletter', 'title', 'Blijf Op De Hoogte')}
                                             </h3>
                                             <p className="mb-6 text-primary-foreground/90">
-                                                Ontvang praktische tips voor
-                                                vastgoedonderhoud,
-                                                onderhoudsplanningen en updates
-                                                over onze diensten.
+                                                {c(content, 'newsletter', 'description', 'Ontvang praktische tips voor vastgoedonderhoud, onderhoudsplanningen en updates over onze diensten.')}
                                             </p>
                                         </div>
                                         <div className="flex flex-col gap-4 sm:flex-row">
